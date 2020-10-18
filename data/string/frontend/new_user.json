@@ -1,0 +1,30 @@
+{
+  "strings": {
+    "invalidFirstName": "Bitte geben Sie einen Vornamen an",
+    "invalidLastName": "Bitte geben Sie einen Nachnamen an",
+    "invalidUserName": "Bitte geben Sie einen Benutzernamen an",
+    "invalidPassword": "Bitte geben Sie ein Passwort an",
+    "invalidPasswordRepeat": "Bitte geben Sie ein Passwort an",
+    "weakPassword": "Mindestanforderung an einem Passwort wurde nicht getroffen",
+    "passwordsNotMatch": "Passwörter stimmen nicht überein",
+    "invalidEmail": "Bitte geben Sie eine E-Mail Adresse an",
+    "invalidURL": "Bitte geben Sie eine URL an",
+    "invalidSubject": "Bitte wählen Sie mindestens ein Fach aus!",
+    "errorTitle": "Fehler",
+    "userRegisteredTitle": "Benutzer hinzugefügt",
+    "userRegisteredContent": "Der Benutzer wurde hinzugefügt. Sie erhalten in Kürze eine E-Mail zur Bestätigung Ihrer Registrierung.",
+    "userRegisterError": "Technischer Fehler während der Registrierung.",
+    "userRegisterErrorTitle": "Fehler",
+    "userRegisteredInvalidFirstName": "Bitte geben Sie einen Vornamen an",
+    "userRegisteredInvalidLastName": "Bitte geben Sie einen Nachnamen an",
+    "userRegisteredInvalidEmail": "Die E-Mail-Adresse ist ungültig. Bitte geben Sie eine gültige E-Mail-Adresse in der Form <benutzername>@<domain>.<tld> an.",
+    "userRegisteredInvalidPassword": "Ungültiges Passwort. Sie haben die Mindestanforderung nicht erfüllt. Bitte geben Sie ein gültiges Passwort an",
+    "userRegisteredInvalidPasswordEqualsRepeat": "Die angegebenen Passwörter stimmen nicht überein",
+    "userRegisteredInvalidPasswordStrength": "Ungültiges Passwort. Sie haben die Mindestanforderung nicht erfüllt. Bitte geben Sie ein gültiges Passwort an",
+    "userRegisteredInvalidSubjects": "Bitte wählen Sie mindestens ein Fach aus",
+    "userRegisteredInvalidAlreadyExists": "Die angegebene E-Mail-Adresse ist bereits registriert. Bitte loggen Sie sich ein oder setzen Ihr Passwort zurück, falls Sie sich nicht einloggen können.",
+    "userRegisteredInvalidUserNameAlreadyExists": "Der angegebene Benutzername ist bereits registriert. Bitte loggen Sie sich ein oder setzen Ihr Passwort zurück, falls Sie sich nicht einloggen können.",
+    "userRegisteredWpCouldNotBeCreated": "Sie wurden in unserem System registriert, sind allerdings nicht für unseren Blog freigeschaltet. Falls Sie Zugriff wünschen kontaktieren Sie bitte einen Administrator",
+    "userRegisteredInvalidUserName": "Bitte geben Sie einen Benutzernamen an"
+  }
+}

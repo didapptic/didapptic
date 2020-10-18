@@ -1,0 +1,163 @@
+<div class="modal-header" data-app-id="{{ app_id }}" data-store-id="{{ store_id }}" id="modal-header">
+    <div id="app-modal-header-box">
+        <div class="icon-element"><img class="header-icon" src="{{ icon_url }}" alt="{{ applicationName|raw }}"></div>
+        <div class="icon-element"><img class="header-icon" src="{{ app_store_icon_url }}"
+                                       alt="{{ applicationName|raw }}">
+        </div>
+        <h1 class="modal-title">{{ applicationName|raw }}</h1>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+<div class="modal-body">
+
+    <div class="ab-info" style="">
+        {% if unavailable == true %}
+            <small>
+                <div class="alert alert-danger" role="alert">
+                    {{ unavailableText }}
+                </div>
+            </small>
+        {% endif %}
+
+        {% if urls is not empty %}
+            <div class="ab-screenshot-block">
+                <div class="ab-screenshots">
+                    {% for url in urls %}
+                        <img class="lazy"
+                             data-original="{{ url }}"
+                             alt=""
+                             src="{{ url }}"
+                             style="">
+                    {% endfor %}
+                </div>
+                <span class="ab-info-head">{{ screenshotsLabel }}</span>
+            </div>
+        {% endif %}
+
+        <div class="container">
+            <div class="row">
+                {% for key, value in timeArray %}
+                    <div class="col">{{ key }}: {{ value }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if didacticComment|trim is not empty %}
+            <div class="ab-info-child ab-info-didkommentar">
+                <span class="ab-info-head">{{ didacticCommentLabel }}</span>
+                <p class="ab-info-content">{{ didacticComment|raw }}</p>
+            </div>
+        {% endif %}
+
+        {% if remarks|trim is not empty %}
+            <div class="ab-info-anmerkungen">
+                <span class="ab-info-head">{{ remarksLabel }}</span>
+                <p class="ab-info-content">{{ remarks|raw }}</p>
+            </div>
+        {% endif %}
+
+        {% if
+            usageValue|trim is not empty or
+            resultsQuality|trim is not empty or
+            presentability|trim is not empty %}
+            <div class="ab-info-child ab-info-bewertung">
+                <span class="ab-info-head">{{ ratingsLabel }}</span>
+                <p class="ab-info-content">
+
+                    {% if usageValue|trim is not empty %}
+                        {{ usageLabel }}: {{ usageValue }} <br>
+                    {% endif %}
+
+                    {% if resultsQuality|trim is not empty %}
+                        {{ resultsQualityLabel }}: {{ resultsQuality }}<br>
+                    {% endif %}
+
+                    {% if presentability|trim is not empty %}
+                        {{ presentabilityLabel }}: {{ presentability }}<br><br>
+                    {% endif %}
+
+                    {{ descriptionExplanation|raw }}
+                </p>
+            </div>
+        {% endif %}
+
+        {% if
+            privacyInformation|trim is not empty or
+            privacyComment|trim is not empty or
+            iosPrivacy|trim is not empty %}
+            <div class="ab-info-child ab-info-datenschutz">
+
+                <span class="ab-info-head">{{ privacyLabel }}</span>
+
+                {% if privacyInformation|trim is not empty %}
+                    <p class="ab-info-content">{{ privacyInformation }}</p>
+                {% endif %}
+
+                {% if privacyComment|trim is not empty %}
+                    <p class="ab-info-content">{{ privacyComment|raw }}</p>
+                {% endif %}
+
+                {% if iosPrivacy|trim is not empty %}
+                    <p class="ab-info-content"><a href="{{ iosPrivacy }}">Datenschutzrichtlinie</a></p>
+                {% endif %}
+                <p></p>
+            </div>
+        {% endif %}
+
+        {% if
+            developer|trim is not empty or
+            download|trim is not empty or
+            lastUpdated|trim is not empty or
+            minimumOs|trim is not empty %}
+            <div class="ab-info-empfh-entw-link">
+                <span class="ab-info-head">{{ furtherInformation }}</span>
+                <p class="ab-info-content">
+
+                    {% if developer|trim is not empty %}
+                        <span>{{ developerLabel }} <a href="{{ developerWebsite }}"
+                                                      target="_blank">{{ developer }}</a></span>
+                        <br>
+                    {% endif %}
+
+                    {% if download|trim is not empty %}
+                        <span>{{ downloadLabel }} <a href="{{ storeUrl }}"
+                                                     target="_blank">{{ downloadApp }}</a></span><br>
+                    {% endif %}
+
+                    {% if lastUpdated|trim is not empty %}
+                        <span>{{ lastUpdatedLabel }} {{ lastUpdated }}</span><br>
+                    {% endif %}
+
+                    {% if minimumOs|trim is not empty %}
+                        <span>{{ minimumOsLabel }} {{ minimumOs }}</span>
+                    {% endif %}
+
+                </p>
+            </div>
+        {% endif %}
+
+        {% if appStoreDescription|trim is not empty %}
+            <div class="ab-info-description">
+                    <span class="ab-info-head trigger-sibling button button-full app-detail-header"
+                          style="cursor: pointer;">
+                        {{ appStoreDescriptionLabel }} {{ expandCollapse }}
+                    </span>
+                <div class="ab-info-content triggered-sibling" style="    display: none; padding : 5px;">
+                    {{ appStoreDescription| raw }}
+                </div>
+            </div>
+        {% endif %}
+
+
+        <div class="form-row text-center" style="margin: 0;">
+            <div class="col-12" style="margin: 0;">
+                {% if appEditPermitted == true %}
+                    <button type="button" id="editButton"
+                            class="btn btn-primary">{{ editAppButtonText }}</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

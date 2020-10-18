@@ -1,0 +1,17 @@
+Order Deny,Allow
+Deny from all
+DirectoryIndex index.php
+
+<Files index.php>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+<Files index.html>
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+<Files ~ "\.(xml|css|jpe?g|png|gif|js|pdf|woff|woff2)$">
+    Allow from all
+</Files>

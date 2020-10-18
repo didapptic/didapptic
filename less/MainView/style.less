@@ -1,0 +1,298 @@
+/**
+ * MIT License
+ *
+ * Copyright (c) 2020 didapptic, <info@didapptic.com>
+ *
+ * @author Dogan Ucar <dogan@dogan-ucar.de>
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+@media (max-width: 767px) {
+  .modal.modal-fullscreen, .bootstrap-fs-modal .modal {
+    box-shadow: 0px 0px 0px 100px white;
+  }
+
+  .modal.modal-fullscreen .modal-dialog, .bootstrap-fs-modal .modal .modal-dialog {
+    margin: 0;
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content, .bootstrap-fs-modal .modal .modal-dialog .modal-content {
+    border-style: none;
+    border-radius: 0;
+    height: 100%;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-header, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-header {
+    justify-content: flex-start;
+    min-height: 50px;
+    line-height: 50px;
+    padding: 0;
+    background-color: #f8f8f8;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-header .modal-title, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-header .modal-title {
+    white-space: nowrap;
+    line-height: 50px;
+    font-size: 1.1rem;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-header .close, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-header .close {
+    float: none;
+    order: -1;
+    margin: 0;
+    padding: 0;
+    margin-right: 12px;
+    height: 50px;
+    color: transparent;
+    text-shadow: none;
+    opacity: 1;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-header .close:before, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-header .close:before {
+    border-style: solid;
+    border-color: #007bff;
+    border-width: 0.15em 0.15em 0 0;
+    content: '';
+    display: inline-block;
+    height: 0.5em;
+    left: 0.55em;
+    position: relative;
+    top: 0.28em;
+    transform: rotate(-45deg);
+    vertical-align: top;
+    width: 0.5em;
+    transform: rotate(-135deg);
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0 10px 0 0;
+    height: 50px;
+    min-height: 50px;
+    line-height: 50px;
+    background-color: #f8f8f8;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .btn, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .btn {
+    border: none;
+    background-color: transparent;
+    margin: 0 0 0 10px;
+    padding: 0;
+    outline: none;
+    box-shadow: none;
+    font-size: 1.0rem;
+    color: #007bff;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .btn:hover, .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .btn:active, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .btn:hover, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .btn:active {
+    text-decoration: underline;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .btn[data-dismiss="modal"], .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .btn[data-dismiss="modal"] {
+    display: none;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .material-icons, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .material-icons {
+    vertical-align: middle;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-footer .fa, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-footer .fa {
+    vertical-align: middle;
+    font-size: 1.25em;
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-body, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-body {
+    flex-shrink: 3;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal.modal-fullscreen-bottom-footer .modal-dialog .modal-content .modal-footer, .modal-fullscreen-bottom-footer .modal .modal-dialog .modal-content .modal-footer {
+    position: inherit;
+    top: inherit;
+    right: inherit;
+    padding: 15px;
+    margin: 0;
+  }
+
+  .modal.modal-fullscreen-bottom-footer .modal-dialog .modal-content .modal-footer .btn, .modal-fullscreen-bottom-footer .modal .modal-dialog .modal-content .modal-footer .btn {
+    margin: 0 0 0 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal.modal-fullscreen .modal-dialog .modal-content, .bootstrap-fs-modal .modal .modal-dialog .modal-content {
+    max-height: calc(100vh - 60px);
+  }
+
+  .modal.modal-fullscreen .modal-dialog .modal-content .modal-body, .bootstrap-fs-modal .modal .modal-dialog .modal-content .modal-body {
+    flex-shrink: 3;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.spinner {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+  /* TODO move spinner img to didapptic */
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading .spinner {
+  overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .spinner {
+  display: block;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  margin-top: -10px;
+}
+
+#search-form {
+  display: none;
+}
+
+#navbar-brand-name {
+  font-weight: 500;
+  font-family: "Arial Rounded MT Bold";
+  font-size: 22px;
+  color: #0d4884
+}
+
+a {
+  color: #064F8A;
+}
+
+.dd__hidden__for__loading {
+  visibility: hidden;
+}
+
+.dd__show__after__loading {
+  visibility: visible;
+}
+
+#dd__blog__subcontainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5vh;
+  justify-content: space-around;
+}
+
+#dd__blog__container {
+  flex-grow: 1;
+}
+
+#dd__wireframe {
+}
+
+#dd__wireframe > input {
+  display: none;
+}
+
+#dd__blog__metadata {
+  width: 22.5%;
+}
+
+#dd__blog__blog {
+  width: 72.5%;
+}
+
+#dd__save__button {
+  margin-top: 2vh;
+}
+
+#dd__blog__title__area {
+  margin-bottom: 2vh;
+}
+
+#dd__blogroll__image {
+  width: 25%;
+  float: left;
+  margin: 0 20px 20px 0;
+}
+
+.read-more {
+  display: none;
+}
+
+#app-modal-header-box {
+  display: flex;
+  flex-grow: 1;
+}
+
+#app-modal-header-box.icon-element {
+}
+
+.modal-title {
+  margin: 0;
+  flex-grow: 1;
+  align-content: baseline;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.header-icon {
+  max-height: 40px;
+}
+
+.half {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 45%;
+}
+
+.popover-header{
+  color: #ee6236;
+  // background-color: ;
+  .close{
+    color: #ee6236;
+    opacity: 1;
+    font-size: 1.7rem;
+    font-weight: 750;
+    line-height: 0.8;
+  }
+}
+
+.actions-btn:hover{
+  background-color: #ee6236 !important;
+  color: white;
+}

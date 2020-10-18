@@ -1,0 +1,14 @@
+{
+  "strings": {
+    "newSubjectTitle": "Neues Fach",
+    "newSubjectPositive": "Speichern",
+    "newSubjectNegative": "Abbrechen",
+    "formContent": {
+      "subjectLabel": "Name des Fachs",
+      "subjectPlaceholder": "Bitte geben Sie einen Namen für das neue Fach an",
+      "subjectHelp": "Das angegebene Fach existiert bereits",
+      "subjectAdded": "Fach hinzugefügt",
+      "subjectCouldNotBeAdded": "Fach konnte nicht hinzugefügt werden"
+    }
+  }
+}

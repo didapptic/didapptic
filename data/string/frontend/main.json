@@ -1,0 +1,12 @@
+{
+  "strings": {
+    "infoTitle": "Informationen",
+    "filtersDesectAllText": "Keine",
+    "filtersSectAllText": "Alle",
+    "filtersSearchPlaceholder": "durchsuchen",
+    "filtersNoneSelected": "keine Auswahl",
+    "filtersNoneResult": "keine Ergebnisse",
+    "selectedTextNumber": "{numberOfSelectedOptions} von {totalOptions} ausgewählt",
+    "filtersHeader": "schließen"
+  }
+}

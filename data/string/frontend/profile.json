@@ -1,0 +1,18 @@
+{
+  "strings": {
+    "idNotGiven": "Es wurde keine ID gefunden. Bitte laden Sie die Seite neu oder kontaktieren einen Administrator.",
+    "nameNotGiven": "Bitte geben Sie einen Namen an",
+    "firstNameNotGiven": "Bitte geben Sie einen Vornamen an",
+    "lastNameNotGiven": "Bitte geben Sie einen Zunamen an",
+    "emailNotGiven": "Bitte geben Sie eine gültige E-Mail-Adresse an",
+    "weakPassword": "Das Passwort entspricht nicht den Mindestanforderungen",
+    "notAUrl": "Bitte geben Sie eine gültige URL an",
+    "profileSubmitErrorTitle": "Fehler",
+    "updatedSuccessContent": "Benutzerangaben wurden aktualisiert",
+    "userNameExists": "Der gewählte Benutzername existiert bereits. Bitte wählen Sie einen anderen aus",
+    "dbError": "Ein unerwarteter Fehler trat auf. Bitte versuchen Sie es erneut oder kontaktieren einen Administrator",
+    "afterUpdateTitle": "Benutzer aktualisieren",
+    "afterUpdateErrorTitle": "Fehler bei Benutzer aktualisieren",
+    "afterUpdateErrorContent": "Ein unerwarteter Fehler trat auf. Bitte versuchen Sie es erneut oder kontaktieren einen Administrator"
+  }
+}

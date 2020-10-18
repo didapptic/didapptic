@@ -1,0 +1,14 @@
+{
+  "strings": {
+    "tagTitle": "Neues Stichwort",
+    "tagPositive": "Speichern",
+    "tagNegative": "Abbrechen",
+    "formContent": {
+      "tagLabel": "Name des Stichworts",
+      "tagPlaceholder": "Bitte geben Sie einen Namen für das neue Stichwort an",
+      "tagHelp": "Das angegebene Stichwort existiert bereits",
+      "tagAdded": "Stichwort hinzugefügt",
+      "tagCouldNotBeAdded": "Stichwort konnte nicht hinzugefügt werden"
+    }
+  }
+}

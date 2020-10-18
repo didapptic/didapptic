@@ -1,0 +1,27 @@
+{
+  "strings": {
+    "singleDeleteModalTitleError": "Fehler",
+    "singleDeleteModalTitleSuccess": "Datei entfernt",
+    "singleDeleteModalContentError": "Die Datei konnte nicht entfernt werden",
+    "singleDeleteModalContentSuccess": "Die Datei wurde erfolgreich entfernt",
+    "deleteModalTitleError": "Fehler",
+    "deleteModalTitleSuccess": "Material entfernt",
+    "deleteModalContentError": "Das Material konnte nicht entfernt werden",
+    "deleteModalContentSuccess": "Das Material wurde erfolgreich entfernt",
+    "newMaterialMissingDate": "Bitte geben Sie ein Datum an",
+    "newMaterialMissingName": "Bitte geben Sie einen Namen an",
+    "newMaterialMissingContent": "Bitte geben Sie einen Inhalt an",
+    "newMaterialMissingFiles": "Es wurden keine Dateien angehängt!",
+    "newMaterialMissingPropertiesTitle": "Es wurden keine Dateien angehängt!",
+    "newMaterialSuccessTitle": "Material gespeichert",
+    "newMaterialSuccessContent": "Material gespeichert",
+    "newMaterialErrorTitle": "Fehler beim Speichern des Materials",
+    "newMaterialErrorContent": "Konnte Dateien nicht speichern",
+    "materialDecryptErrorTitle": "Fehler bei der Passwortabfrage",
+    "materialDecryptErrorContent": "Fehler. Bitte versuchen Sie es erneut!",
+    "materialDecryptPasswordIncorrectTitle": "Fehler bei der Passwortabfrage",
+    "materialDecryptPasswordIncorrectContent": "Das Passwort ist falsch. Bitte versuchen Sie es erneut!",
+    "materialDecryptPasswordNoPasswordTitle": "Kein Passwort",
+    "materialDecryptPasswordNoPasswordContent": "Bitte geben Sie ein Passwort an"
+  }
+}

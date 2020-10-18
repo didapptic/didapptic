@@ -1,0 +1,27 @@
+{
+  "strings": {
+    "modalErrorTitle": "Fehler beim Speichern der App",
+    "modalTitle": "App Speichern",
+    "modalNegative": "Schließen",
+    "modalTechnicalError": "Technischer Fehler während des Speicherns. Bitte kontaktieren Sie einen Administrator",
+    "noSubjectsErrorMessage": "Bitte wählen Sie mindestens ein Fach aus!",
+    "noCategoriesErrorMessage": "Bitte wählen Sie mindestens eine Kategorie aus!",
+    "noTagsErrorMessage": "Bitte wählen Sie mindestens ein Tag aus!",
+    "appUpdatedMessage": "Die App wurde gespeichert",
+    "appNotUpdatedErrorMessage": "Fehler beim Speichern. Bitte versuchen Sie es erneut oder kontaktieren Sie einen Administrator",
+    "deleteAppConfirmTitle": "Möchten Sie diese App wirklich entfernen?",
+    "deleteAppConfirmMessage": "Sie können diesen Vorgang nicht ohne einen Administrator wieder rückgängig machen.",
+    "deleteAppConfirmPositive": "Ja",
+    "deleteAppConfirmNegative": "Nein",
+    "invalidGoogleUrl": "Die angegebene Google Play URL ist ungültig",
+    "invalidAppleUrl": "Die angegebene Apple iTunes Play URL ist ungültig",
+    "invalidUsageValue": "Bitte geben Sie einen Wert für den Nutzungskomfort an",
+    "invalidResultsQualityValue": "Bitte geben Sie einen Wert für Ergebnis-Qualität an",
+    "invalidPresentabilityValue": "Bitte geben Sie einen Wert für Präsentierbarkeit der Ergebnisse an",
+    "invalidDidacticCommentValue": "Bitte geben Sie einen didaktischen Kommentar an",
+    "invalidDidacticRemarkValue": "Bitte geben Sie eine Anmerkung an",
+    "invalidPrivacyValue": "Bitte machen Sie eine Angabe zum Datenschutz",
+    "invalidAuthorValue": "Es konnte kein Autor ermittelt werden. Evtl. müssen Sie die Seite neu laden",
+    "invalidRecommendationValue": "Es konnte keine Empfehlung ermittelt werden. Evtl. müssen Sie die Seite neu laden"
+  }
+}

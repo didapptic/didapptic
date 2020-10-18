@@ -1,0 +1,25 @@
+<div class="container">
+    <h1 class="my-4">{{ aboutUsHeader }}</h1>
+    <p>{{ pageDescription }}</p>
+    <h2>{{ whatIsDidapptic }}</h2>
+    <p>{{ appDescription }}</p>
+    <p>{{ furtherInformation }}<a href="{{ hintsLink }}">{{ hints }}</a></p>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2>{{ whoRunsDidapptic }}</h2>
+            <p>{{ whoRunsDidappticDesc|raw }}</p>
+            <p>{{ supportDesc1 }} <a href="{{ mainSupporterLink }}"
+                                     target="_blank">{{ mainSupporterName }}</a> {{ supportDesc2 }} </p>
+            <p><a href="{{ devSupporterLink }}"
+                  target="_blank">{{ devSupporterName }}</a> {{ devDesc }} </p>
+        </div>
+    </div>
+    <h2 class="my-4">{{ license }}</h2>
+    <p>{{ licenseDescription }}</p>
+    <h3 class="my-4">{{ openSource }}</h3>
+    {% for app, version in openSourceLibraries %}
+        <li><a href="https://packagist.org/packages/{{ app }}">{{ app }}</a></li>
+    {% endfor %}
+</div>
+
+

@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group">
+        <small id="subjectAdded" class="form-text text-success d-sm-none">{{ subjectAdded }}</small>
+        <small id="subjectNotAdded" class="form-text text-danger d-sm-none">{{ subjectCouldNotBeAdded }}</small>
+        <label for="subject">{{ subjectLabel }}</label>
+        <input type="text" class="form-control" id="subject" aria-describedby="subjectHelp"
+               placeholder="{{ subjectPlaceholder }}">
+        <small id="subjectHelp" class="form-text text-danger d-sm-none">{{ subjectHelp }}</small>
+    </div>
+</form>

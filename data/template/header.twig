@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+{{ head|raw }}
+<body style="padding-top: 4.5rem;">
+<data-node id="data-node" data-host="{{ host }}" data-debug="{{ debug }}"></data-node>
+<div>
+    <nav class="navbar navbar-expand-md fixed-top bg-light navbar-light" id="global-navigation">
+        <a class="navbar-brand" href="{{ selfPath }}">
+            <img class="header-logo" src="{{ logoPath }}" alt="didapptic-logo">
+        </a>
+        <a class="navbar-brand" id="navbar-brand-name" href="{{ selfPath }}">{{ appName }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                {% for menu in pageNavigation %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ menu.getHref() }}">{{ menu.getName() }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% if production == false %}
+                <div style="background: red; color: white ; margin-right: 10px; padding:5px; border-radius: 3px">
+                    {{ environment_description }}
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+</div>

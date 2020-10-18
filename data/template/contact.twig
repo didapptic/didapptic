@@ -1,0 +1,48 @@
+<main>
+    <div id="contact-container" class="container" style="margin-top: 70px; max-width: 900px;">
+        <div class="row">
+            <div class="col-xl-10 col-xl-offset-2">
+                <form id="contact-form" method="post" role="form">
+                    <div class="messages"></div>
+                    <div class="controls">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="form_name">{{ name }}</label>
+                                    <input id="form_name" type="text" name="name" class="form-control"
+                                           placeholder="{{ namePlaceholder }}" required="required"
+                                           data-error="{{ nameError }}">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="form_email">{{ email }}</label>
+                                    <input id="form_email" type="email" name="email" class="form-control"
+                                           placeholder="{{ emailPlaceholder }}" required="required"
+                                           data-error="{{ emailError }}">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="form_message">{{ message }}</label>
+                                    <textarea id="form_message" name="message" class="form-control"
+                                              placeholder="{{ messagePlaceholder }}" rows="4" required="required"
+                                              data-error="{{ messageError }}"></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="submit" class="btn btn-success btn-send" id="dd__contact__submit__button"
+                                       value="{{ buttonValue }}">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>

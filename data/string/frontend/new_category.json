@@ -1,0 +1,14 @@
+{
+  "strings": {
+    "newCategoryTitle": "Neue Kategorie",
+    "newCategoryPositive": "Speichern",
+    "newCategoryNegative": "Abbrechen",
+    "formContent": {
+      "categoryLabel": "Name der Kategorie",
+      "categoryPlaceholder": "Bitte geben Sie einen Namen für die neue Kategorie an",
+      "categoryHelp": "Die angegebene Kategorie existiert bereits",
+      "categoryAdded": "Kategorie hinzugefügt",
+      "categoryCouldNotBeAdded": "Kategorie konnte nicht hinzugefügt werden"
+    }
+  }
+}

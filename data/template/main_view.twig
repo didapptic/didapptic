@@ -1,0 +1,112 @@
+<main class="main">
+    <div class="container p-3 my-3 bg-primary text-white" id="filter-parent">
+        <div class="d-flex justify-content-between">
+            <div id="filter-comment-text" class="lead text-justify half">
+                {{ filterCommentPre }}<a style='color: rgb(255, 204, 92);'
+                                         href='{{ hintLink }}'>{{ here }}</a>{{ filterCommentPostFirst }}
+                <br><br>{{ filterCommentPostSecond }}
+            </div>
+            <div class="d-flex flex-column bd-highlight mb-3 half">
+                <button id="main-info-button" type="button" class="btn btn-secondary">{{ showInfo }}</button>
+                <div class="form-group">
+                    <label for="os-select-box">{{ osLabel }}</label>
+                    <select class="form-control" id="os-select-box" multiple>
+                        {% for id, value in operatingSystems %}
+                            <option value="{{ id }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="subject-select-box">{{ subjectLabel }}</label>
+                    <select id="subject-select-box" class="form-control" multiple>
+                        {% for id, value in subjects %}
+                            <option value="{{ id }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category-select-box">{{ categoryLabel }}</label>
+                    <select id="category-select-box" class="form-control" multiple>
+                        {% for id, value in categories %}
+                            <option value="{{ id }}">{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="search-filter">{{ searchLabel }}</label>
+                    <input type="text" class="form-control" id="search-filter" placeholder="{{ searchPlaceholder }}">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="middle-part">
+        <div class="appbox" id="appbox" data-position="{{ position }}" data-chunk-size="{{ chunkSize }}">
+            <div id="app-wrapper">
+                {% for app in applications %}
+                    <div class="ab-main" data-store-id="{{ app.getStoreId() }}"
+                         data-category-ids="{{ app.getCategories()|keys|json_encode }}"
+                         data-operating-system-ids="{{ app.getOperatingSystem() }}"
+                         data-subject-ids="{{ app.getSubjects()|keys|json_encode }}"
+                         data-name="{{ app.getName() }}"
+                         data-app-id="{{ app.getId() }}"
+                    >
+                        <div class="ab-face">
+                            <div class="ab-icon">
+                                <img class="img-icon"
+                                        {% if app.getReleaseDate() == null %}
+                                            src="{{ naPath }}"
+                                        {% else %}
+                                            src="{{ app.getIconUrl() }}"
+                                        {% endif %}
+                                     alt="icon">
+                            </div>
+                            <div class="ab-appname">
+                                <span>{{ app.getName() }}</span>
+                            </div>
+                            <div class="ab-matrix">
+                                <div class="ab-matrix-block">
+                                    <div class="ab-matrix-block-child ab-rating">
+                                        <span class="ab-rating-store">{{ "%.1f"|format(app.getRating()|round(1, 'floor')) }}</span>
+                                    </div>
+                                    <div class="ab-matrix-block-child ab-rating">
+                                        <span class="ab-rating-me">{{ "%.1f"|format(app.getAvgRating()|round(1, 'floor')) }}</span>
+                                    </div>
+                                </div>
+                                <div class="ab-matrix-block">
+                                    <div class="ab-matrix-block-child">
+                                        {% if app.getOperatingSystem() == 1 %}
+                                            <img class="ab-os-logo" src="{{ appleIconPath }}" alt="">
+                                        {% else %}
+                                            <img class="ab-os-logo" src="{{ androidIconPath }}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="ab-matrix-block-child">
+                                        <img class="ab-device-logo" src="{{ smartutlbPath }}" alt="">
+                                    </div>
+                                </div>
+                                <div class="ab-matrix-block">
+                                    <div class="ab-matrix-block-child ab-preis">
+                                        {% if app.getPrice() > 0 %}
+                                            {{ app.getPrice() }} {{ app.getPriceCurrency() }}
+                                        {% else %}
+                                            {{ forFree }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="ab-matrix-block-child ab-mz">
+                                        <img class="ab-mz" src="{{ mzPath }}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="loading-spinner" class="d-none justify-content-center">
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

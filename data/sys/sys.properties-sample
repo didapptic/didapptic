@@ -1,0 +1,38 @@
+; SYSTEM
+system.date.pattern.de.display=
+system.settings.mode.log.level=
+system.settings.mode.debug=
+system.settings.app.chunks.size=
+
+; SYSTEM APPMONSTA
+system.settings.appmonsta.apikey=
+system.settings.appmonsta.request.seconds.sleep=
+system.settings.appmonsta.request.limit=
+
+; EMAIL
+email.default.sender.address=
+email.default.sender.password=
+email.default.sender.smtp.protocol=
+email.default.sender.smtp.host=
+email.default.sender.smtp.port=
+email.default.receiver.name=
+email.default.receiver.address=
+
+; SYSTEM REGISTRATION
+system.user.new.registration.user=
+system.user.new.registration.password=
+
+; SYSTEM VIEW
+system.user.view.material.password=
+system.user.view.material.user=
+
+; DATABASE
+database.host=
+database.schema.name=
+database.username=
+database.password=
+database.charset=
+
+; WORDPRESS
+url.backend.wordpress=
+password.application.backend.wordpress=

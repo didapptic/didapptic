@@ -1,0 +1,19 @@
+.idea/
+/vendor/
+main.php
+node_modules
+src/dist/js/*
+src/dist/css/*
+.vagrant
+
+*.pdf
+/mat/
+
+.DS_Store
+
+# data
+data/bkp/*
+!data/bkp/.gitkeep
+data/log/*.log
+data/sys/sys.properties
+ubuntu-xenial-16.04-cloudimg-console.log

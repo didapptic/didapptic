@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group">
+        <small id="categoryAdded" class="form-text text-success d-sm-none">{{ categoryAdded }}</small>
+        <small id="categoryNotAdded" class="form-text text-danger d-sm-none">{{ categoryCouldNotBeAdded }}</small>
+        <label for="category">{{ categoryLabel }}</label>
+        <input type="text" class="form-control" id="category" aria-describedby="categoryHelp"
+               placeholder="{{ categoryPlaceholder }}">
+        <small id="categoryHelp" class="form-text text-danger d-sm-none">{{ categoryHelp }}</small>
+    </div>
+</form>

@@ -1,0 +1,24 @@
+<div style="padding-top: 3.5rem;"></div>
+<div style="border-top: 1px solid #8c8b8b;padding-bottom: 3.5rem;"></div>
+<footer class="container">
+    <div class="container" style="padding-bottom: 3.5rem;">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <p>&copy; {{ copyrightName }} 2018 - {{ currentYear }}</p>
+                <p>
+                    {% for url, label in links %}
+                        <a href="{{ url }}">{{ label }}</a>
+                        {% if not loop.last %}
+                            |
+                        {% endif %}
+                        </a>
+                    {% endfor %}
+                </p>
+                <p id="built-by">{{ builtBy }} <a href="{{ builtByHref }}" target="_blank">{{ builtByName }}</a></p>
+            </div>
+            <div class="col-md-6 mx-auto">
+                {{ supporterTextBeginning }} <a href="{{ supporterUrl }}">{{ supporterTextInner }}</a>
+            </div>
+        </div>
+    </div>
+</footer>

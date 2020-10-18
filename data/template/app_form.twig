@@ -1,0 +1,269 @@
+<main>
+    <div class="container" id="new-app-container" style="margin-top: 70px; max-width: 900px;">
+        <div style="margin-bottom: 30px; "><h1>{{ headline }}</h1></div>
+        <p>{{ editAppDescription }}</p>
+        <p><b>{{ androidDurationHint }}</b></p>
+        <form id="new-app-form" method="post" role="form">
+            <div class="border container">
+                <div class="separator">
+                    <div class="separator-text"><h5>{{ urlsLabel }}</h5></div>
+                </div>
+                <div class="form-group">
+                    <h5><label for="google-store-url" class="control-label">{{ googleStoreUrlLabel }}</label></h5>
+                    <textarea class="form-control" id="google-store-url" name="google-store-url"
+                              placeholder="{{ googleStoreUrlPlaceHolder }}" rows="1"
+                              {% if true == readOnly %}
+                                  readonly
+                              {% endif %}
+                              >{% if true == app.isAndroid() %}{{ app.getStoreUrl() }}{% endif %}</textarea>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5><label for="ios-store-url" class="control-label">{{ iosStoreUrlLabel }}</label></h5>
+                    <textarea class="form-control" id="ios-store-url" name="ios-store-url"
+                              placeholder="{{ iosStoreUrlPlaceHolder }}" rows="1"
+                                                  {% if true == readOnly %}
+                                                      readonly
+                                                  {% endif %}
+                    >{% if true == app.isIos() %}{{ app.getStoreUrl() }}{% endif %}
+                    </textarea>
+                    <div class="invalid-feedback">
+                        Please choose a username.
+                    </div>
+                </div>
+
+                <div class="separator">
+                    <div class="separator-text"><h5>{{ userInput }}</h5></div>
+                </div>
+                <div class="form-group">
+                    <h5><label for="usage-range-slider" class="control-label">{{ usageLabel }}*</label></h5>
+                    <p>{{ usageDescription }}</p>
+                    <input type="range" class="custom-range" id="usage-range-slider" min="0" max="5"
+                           value="{{ app.getUsage() }}"
+                           step="0.1" oninput="document.querySelector('#usage-output').value = value"
+                            {% if debug== false %}
+                                required
+                            {% endif %}
+                    >
+                    <output for="usage-range-slider" id="usage-output">{{ app.getUsage() }}</output>
+                </div>
+
+                <div class="form-group">
+                    <h5><label for="results-quality-range-slider" class="control-label">{{ resultsQuality }}*</label>
+                    </h5>
+                    <p>{{ resultsQualityDescription }}</p>
+                    <input type="range" class="custom-range" id="results-quality-range-slider" min="0" max="5"
+                           value="{{ app.getResultsQuality() }}"
+                           step="0.1" oninput="document.querySelector('#results-quality-output').value = value"
+                            {% if debug== false %}
+                                required
+                            {% endif %}
+                    >
+                    <output for="usage-range-slider" id="results-quality-output">{{ app.getResultsQuality() }}</output>
+                </div>
+
+                <div class="form-group">
+                    <h5><label for="presentability-range-slider"
+                               class="control-label">{{ presentabilityLabel }}*</label>
+                    </h5>
+                    <p>{{ presentabilityDescription }}</p>
+                    <input type="range" class="custom-range" id="presentability-range-slider" min="0" max="5"
+                           value="{{ app.getPresentability() }}"
+                           step="0.1" oninput="document.querySelector('#presentability-output').value = value"
+                            {% if debug== false %}
+                                required
+                            {% endif %}
+                    >
+                    <output for="usage-range-slider" id="presentability-output">{{ app.getPresentability() }}</output>
+                </div>
+
+                <div class="form-group">
+                    <h5><label for="didactic-comment">{{ didacticCommentLabel }}*</label></h5>
+                    <p>{{ didacticCommentDescription }}</p>
+                    <textarea class="form-control" rows="5" id="didactic-comment"
+                              placeholder="{{ didacticCommentPlaceholder }}"
+                              {% if debug== false %}
+                                  required
+                              {% endif %}
+                    >{{ app.getDidacticComment()|html_entity_decode }}</textarea>
+                </div>
+                <div class="form-group">
+                    <h5><label for="didactic-remark">{{ didacticRemarkLabel }}*</label></h5>
+                    <p>{{ didacticRemarkDescription }}</p>
+                    <textarea class="form-control" rows="5" id="didactic-remark"
+                              placeholder="{{ didacticRemarkPlaceholder }}"
+                              {% if debug== false %}
+                              required
+                              {% endif %}>{{ app.getDidacticRemark()|html_entity_decode }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <h5><label for="privacy" class="control-label">{{ privacyLabel }}*</label></h5>
+                    <p>{{ privacyDescription }}</p>
+                    <select class="form-control" id="privacy"
+                            {% if debug== false %}
+                    required
+                            {% endif %}>
+                        {% for key, value in privacy %}
+                            <option value="{{ key }}"
+                                    {% if app.getPrivacyCode()== key %}
+                            selected
+                                    {% endif %}>{{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <h5><label for="privacy-comment">{{ privacyCommentLabel }}</label></h5>
+                    <textarea class="form-control" rows="5" id="privacy-comment"
+                              placeholder="{{ privacyCommentPlaceholder }}">{{ app.getPrivacyComment()|html_entity_decode }}</textarea>
+                </div>
+                <div class="form-group" id="ios-privacy-wrapper" style="{{ displayIosPrivacy }}">
+                    <h5><label for="ios-privacy" class="control-label">{{ iosPrivacy }}</label></h5>
+                    <input type="text" class="form-control" id="ios-privacy" name="ios-privacy"
+                           placeholder="{{ iosPrivacyPlaceholder }}" value="{{ app.getIosPrivacy() }}">
+                </div>
+                <div class="form-group" id="subjects">
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ subjectsLabel }}</h5></div>
+                    </div>
+
+                    <p>{{ subjectsDescription }}</p>
+                    <div class="container" id="subject-container">
+                        <div class="row" id="subjects-checkboxes">
+                            {% for key, value in subjects %}
+                                <div class="col-xl-4">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{ key }}" class="subject-checkbox"
+                                                      style="margin-right: 5px;"
+                                                    {% if key in app.getSubjects()|keys %}
+                                                        checked
+                                                    {% endif %}
+                                                      id="subject-{{ key }}"
+                                                      data-name="{{ value }}"
+                                            >{{ value }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if newSubjectPermitted == true %}
+                        <button type="button" class="btn btn-primary" id="new__subject">{{ newSubject }}</button>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ categoryLabel }}</h5></div>
+                    </div>
+
+                    <p>{{ categoryDescription }}</p>
+                    <div class="container">
+                        <div class="row" id="category-checkboxes">
+                            {% for key, value in categories %}
+                                <div class="col-xl-4">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{ key }}" class="category-checkbox"
+                                                      style="margin-right: 5px;"
+                                                    {% if key in app.getCategories()|keys %}
+                                                        checked
+                                                    {% endif %}
+                                                      data-name="{{ value }}"
+                                            >{{ value }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if newCategoryPermitted == true %}
+                        <button type="button" class="btn btn-primary" id="new__category">{{ newCategory }}</button>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ tagsLabel }}</h5></div>
+                    </div>
+                    <p>{{ tagsDesription }}</p>
+                    <div class="container">
+                        <div class="row" id="tag-checkboxes">
+                            {% for key, value in tags %}
+                                <div class="col-xl-4">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{ key }}" class="tag-checkbox"
+                                                      style="margin-right: 5px;"
+                                                    {% if key in app.getTags()|keys %}
+                                                        checked
+                                                    {% endif %}
+                                                      data-name="{{ value }}"
+                                            >{{ value }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if newTagPermitted == true %}
+                        <button type="button" class="btn btn-primary" id="new__tag">{{ newTag }}</button>
+                    {% endif %}
+
+                </div>
+                <div class="form-group">
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ authorLabel }}</h5></div>
+                    </div>
+
+                    <p>{{ authorDescription }}</p>
+                    <select class="form-control form-control-sm" id="author"
+                            {% if debug== false %}
+                    required
+                            {% endif %}>
+                        {% for user in authors %}
+                            {% if permitted == true or user.getId() == app.getAuthor() %}
+                                <option value="{{ user.getId() }}">{{ user.getName() }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ recommendationLabel }}</h5></div>
+                    </div>
+
+                    <p>{{ recommendationDescription }}</p>
+                    <select class="form-control form-control-sm" id="recommendation"
+                            {% if debug== false %}
+                    required
+                            {% endif %}>
+                        {% for key, value in recommendations %}
+                            <option value="{{ key }}"
+                                    {% if key == app.getRecommendation() %}
+                                        selected
+                                    {% endif %}
+                            >{{ value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group"> <!-- Submit Button -->
+                    {% if permitted == true %}
+                        <button type="submit" id="submit-button"
+                                class="btn btn-primary">{{ submitButtomLabel }}</button>
+                    {% endif %}
+                    {% if appDeletionPermitted == true %}
+                        <button
+                                type="button"
+                                id="deleteButton"
+                                class="btn btn-danger"
+                                data-app-id="{{ app.getId() }}"
+                        >
+                            {{ deleteAppButtonText }}
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="spinner"><!-- Place at bottom of page --></div>
+</main>

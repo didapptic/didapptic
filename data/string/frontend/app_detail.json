@@ -1,0 +1,25 @@
+{
+  "strings": {
+    "didacticCommentLabel": "Didaktischer Kommentar",
+    "remarksLabel": "Anmerkungen",
+    "ratingsLabel": "Die Bewertung der App im Detail",
+    "usageLabel": "Nutzungskomfort",
+    "resultsQualityLabel": "Ergebnis-Qualität",
+    "presentabilityLabel": "Präsentierbarkeit der Ergebnisse",
+    "descriptionExplanation": "Obige Begriffe werden <a href=\"$hintsUrl\" target=\"_blank\">hier</a> erklärt.",
+    "privacyLabel": "Datenschutz und Nutzung im Unterricht",
+    "minimumAgeLabel": "Altersfreigabe nach Angabe im App-Store",
+    "developerLabel": "Entwickler:",
+    "downloadLabel": "Download:",
+    "lastUpdatedLabel": "App wurde zuletzt aktualisiert am:",
+    "appStoreDescriptionLabel": "App-Store-Beschreibung",
+    "screenshotsLabel": "Screenshots",
+    "editAppButtonText": "Bearbeiten",
+    "furtherInformation": "Weitere App-Daten & Downloadlink",
+    "expandCollapse": "Einblenden",
+    "versionUpdateLabel": "Letzte App-Store Aktualisierung:",
+    "unavailableText": "Diese App ist derzeit nicht im AppStore erhältlich",
+    "collapseLabel": "App-Store-Beschreibung Ausblenden",
+    "expandLabel": "App-Store-Beschreibung Einblenden"
+  }
+}

@@ -1,0 +1,24 @@
+{% for key, value in files %}
+    {% if value is not null %}
+
+        <li class="list-group-item"
+            style="display: flex;
+                                             justify-content: space-between;"
+
+            data-id="{{ value.id }}">
+
+            <a class="single_material" target="_blank" href="{{ material_file_url }}{{ value.id }}/{{ token }}/">
+                {{ value.name }} ({{ value.formatted_size }})
+            </a>
+            {% if canDeleteSingleFile == true %}
+                <i
+                        class="fas fa-times-circle dd__material__delete__single__button"
+                        data-file-id="{{ value.id }}"
+                        data-material-id="{{ material_id }}"
+                        style="cursor: pointer"
+                ></i>
+            {% endif %}
+
+        </li>
+    {% endif %}
+{% endfor %}

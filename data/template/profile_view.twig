@@ -1,0 +1,134 @@
+<main>
+    <div class="container" id="new-app-container" style="margin-top: 70px; max-width: 900px;">
+        <div style="margin-bottom: 30px; "><h1>{{ headline }}</h1></div>
+        <p>{{ description }}</p>
+        <form id="edit-user-form" method="post" role="form">
+            <div class="border container">
+                <div class="separator">
+                    <div class="separator-text"><h5>{{ profileLabel }}</h5></div>
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-id" class="control-label">{{ profileIdLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-id" name="profile-id"
+                           placeholder="{{ profileIdPlaceholder }}" value="{{ profile.getId() }}"
+                           readonly aria-readonly="true">
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-name" class="control-label">{{ profileNameLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-name" name="profile-name"
+                           placeholder="{{ profileNamePlaceholder }}" value="{{ profile.getName() }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-firstname" class="control-label">{{ profileFirstNameLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-firstname" name="profile-firstname"
+                           placeholder="{{ profileFirstNamePlaceholder }}" value="{{ profile.getFirstName() }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-lastname" class="control-label">{{ profileLastNameLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-lastname" name="profile-lastname"
+                           placeholder="{{ profileLastNamePlaceholder }}" value="{{ profile.getLastName() }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-email" class="control-label">{{ profileEmailLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-email" name="profile-email"
+                           placeholder="{{ profileEmailPlaceholder }}" value="{{ profile.getEmail() }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-password" class="control-label">{{ profilePasswordLabel }}</label></h5>
+                    <label>{{ passwordPolicy|raw }}</label>
+                    <input type="text" class="form-control" id="profile-password" name="profile-password"
+                           placeholder="{{ profilePasswordPlaceholder }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-website" class="control-label">{{ profileWebsiteLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-website" name="profile-website"
+                           placeholder="{{ profileWebsitePlaceholder }}" value="{{ profile.getWebsiteURL() }}"
+                    >
+                </div>
+                <div class="form-group">
+                    <h5><label for="profile-wp-userid" class="control-label">{{ profileWpUserIdLabel }}</label></h5>
+                    <input type="text" class="form-control" id="profile-wp-userid" name="profile-wp-userid"
+                           placeholder="{{ profileWpUserIdPlaceholder }}" value="{{ profile.getWpUserId() }}"
+                    >
+                </div>
+                <h5><label for="profile-newsletter" class="control-label">{{ profileNewsletterLabel }}</label></h5>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="profile-newsletter" name="profile-newsletter"
+                            {% if true == profile.isNewsletter() %}
+                                checked
+                            {% endif %}
+                    >
+                    <label class="form-check-label" for="profile-newsletter">{{ newsletterDescription }}</label>
+                </div>
+
+                {% if true == isAdmin %}
+                    <div class="separator">
+                        <div class="separator-text"><h5>{{ rolesLabel }}</h5></div>
+                    </div>
+                    <p>{{ rolesDescription }}</p>
+                    <div class="container" id="roles-container">
+                        <div class="row" id="roles-checkboxes">
+                            {% for role in roles %}
+                                <div class="col-xl-4">
+                                    <div class="checkbox">
+                                        <label><input type="checkbox" value="{{ role.getId() }}"
+                                                    {% if role.getId() in profileRoles %}
+                                                        checked
+                                                    {% endif %}
+                                                      data-role-id="{{ role.getId() }}"
+                                                      data-name="{{ role.getName() }}"
+                                            >{{ role.getName() }}</label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="separator">
+                    <div class="separator-text"><h5>{{ notificationsLabel }}</h5></div>
+                </div>
+                <p>{{ notificationsDescription }}</p>
+                {% if false == hasNotifications %}
+                    <p>{{ noNotificationsDescription }}</p>
+                {% endif %}
+                <div class="container" id="subject-container">
+                    <ul class="list-group">
+                        {% for notification in notifications %}
+
+                            <li class="list-group-item"
+                                data-notification-id="{{ notification.getId() }}"
+                            ><b>{{ notification.getName() }}</b>
+                                <ul class="list-group list-group-flush" id="notification-checkboxes">
+                                    {% for type in notification.getTypes() %}
+                                        <li class="list-group-item">
+                                            <label><input type="checkbox"
+                                                        {% if type.getId() in profileNotifications or true == type.isMandatory() %}
+                                                            checked
+                                                        {% endif %}
+                                                        {% if true == type.isMandatory() %}
+                                                            disabled
+                                                        {% endif %}
+                                                          data-type-id="{{ type.getId() }}"
+                                                          data-notification-id="{{ notification.getId() }}"
+                                                >
+                                                {{ typeNames[type.getName()] }} </label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="save__button__user">{{ save }}</button>
+            </div>
+        </form>
+    </div>
+    <div class="spinner"><!-- Place at bottom of page --></div>
+</main>

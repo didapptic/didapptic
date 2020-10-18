@@ -1,0 +1,60 @@
+{% for app in apps.content %}
+    {% if app is not null %}
+        <div class="ab-main" data-store-id="{{ app.store_id }}"
+             data-category-ids="{{ app.categories|keys|json_encode }}"
+             data-operating-system-ids="{{ app.operating_system }}"
+             data-subject-ids="{{ app.subjects|keys|json_encode }}"
+             data-name="{{ app.name }}"
+             data-app-id="{{ app.getId() }}"
+        >
+            <div class="ab-face">
+                <div class="ab-icon">
+                    <img class="img-icon"
+                            {% if app.release_date == null %}
+                                src="{{ naPath }}"
+                            {% else %}
+                                src="{{ app.icon_url }}"
+                            {% endif %}
+                         alt="icon">
+                </div>
+                <div class="ab-appname">
+                    <span>{{ app.name }}</span>
+                </div>
+                <div class="ab-matrix">
+                    <div class="ab-matrix-block">
+                        <div class="ab-matrix-block-child ab-rating">
+                            <span class="ab-rating-store">{{ "%.1f"|format(app.rating|round(1, 'floor')) }}</span>
+                        </div>
+                        <div class="ab-matrix-block-child ab-rating">
+                            <span class="ab-rating-me">{{ "%.1f"|format(app.avg_rating|round(1, 'floor')) }}</span>
+                        </div>
+                    </div>
+                    <div class="ab-matrix-block">
+                        <div class="ab-matrix-block-child">
+                            {% if app.operating_system == 1 %}
+                                <img class="ab-os-logo" src="{{ appleIconPath }}" alt="">
+                            {% else %}
+                                <img class="ab-os-logo" src="{{ androidIconPath }}" alt="">
+                            {% endif %}
+                        </div>
+                        <div class="ab-matrix-block-child">
+                            <img class="ab-device-logo" src="{{ smartutlbPath }}" alt="">
+                        </div>
+                    </div>
+                    <div class="ab-matrix-block">
+                        <div class="ab-matrix-block-child ab-preis">
+                            {% if app.price > 0 %}
+                                {{ app.price }} {{ app.price_currency }}
+                            {% else %}
+                                {{ forFree }}
+                            {% endif %}
+                        </div>
+                        <div class="ab-matrix-block-child ab-mz">
+                            <img class="ab-mz" src="{{ mzPath }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

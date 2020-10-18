@@ -1,0 +1,7 @@
+parameters:
+	autoload_files:
+		- %rootDir%/../../autoload.php
+	excludes_analyse:
+	    - %rootDir%/../../
+	    - %rootDir%/../../../src/Repository/Migration/*
+	bootstrap: %rootDir%/../../../config/phpstan/bootstrap.php

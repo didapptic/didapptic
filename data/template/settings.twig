@@ -1,0 +1,28 @@
+<main>
+    <div class="container" id="new-app-container" style="margin-top: 70px; max-width: 900px;">
+        <div style="margin-bottom: 30px; "><h1>{{ headline }}</h1></div>
+        <p>{{ description }}</p>
+        <form id="edit-user-form" method="post" role="form">
+            <div class="border container">
+
+                <div class="separator">
+                    <div class="separator-text"><h5>{{ usersLabel }}</h5></div>
+                </div>
+                <p>{{ usersDescription }}</p>
+                <div class="container" id="roles-container">
+                    <ul class="list-group">
+                        {% for user in users %}
+                            {% if true == isAdmin or myUser.getId() == user.getId() %}
+                                <li class="list-group-item"><a
+                                            href="{{ baseUrl }}{{ editUserRoute }}{{ user.getId() }}/" target="_blank"
+                                            data-user-id="{{ user.getId() }}"
+                                    >{{ user.getName() }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</main>

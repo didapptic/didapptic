@@ -1,0 +1,21 @@
+<head>
+    <meta charset="UTF-8">
+    <title>{{ pageTitle }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="At didapptic you can find apps for your lessons or share your experience with others. ">
+    <meta name="keywords" content="apps, teaching, lessons, didactic">
+    <meta name="author" content="Ahmet Camuka">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" href="{{ siteLogoPath }}"/>
+    <link rel="shortcut icon" href="{{ faviconPath }}">
+    {% for css in cssArray %}
+        <link rel="stylesheet" type="text/css" href="{{ css }}">
+    {% endfor %}
+
+    {% for js in jsArray %}
+        <script type="application/javascript" src="{{ js }}"></script>
+    {% endfor %}
+
+</head>

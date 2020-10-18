@@ -1,0 +1,10 @@
+<form>
+    <div class="form-group">
+        <small id="tagAdded" class="form-text text-success d-sm-none">{{ tagAdded }}</small>
+        <small id="tagNotAdded" class="form-text text-danger d-sm-none">{{ tagCouldNotBeAdded }}</small>
+        <label for="tag">{{ tagLabel }}</label>
+        <input type="text" class="form-control" id="tag" aria-describedby="tagHelp"
+               placeholder="{{ tagPlaceholder }}">
+        <small id="tagHelp" class="form-text text-danger d-sm-none">{{ tagHelp }}</small>
+    </div>
+</form>
