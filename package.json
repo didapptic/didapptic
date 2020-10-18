@@ -46,6 +46,9 @@
     "path": "^0.12.7",
     "popper.js": "^1.16.1",
     "twing": "^5.0.2",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "yargs-parser": ">=13.1.2",
+    "dot-prop": ">=4.2.1",
+    "lodash": ">=4.17.19"
   }
 }

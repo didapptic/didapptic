@@ -20,7 +20,7 @@
     "phpmailer/phpmailer": "6.*",
     "robmorgan/phinx": "0.10.6",
     "slim/slim": "^3.0",
-    "symfony/http-foundation": "4.2.1",
+    "symfony/http-foundation": "4.2.12",
     "tuupola/slim-basic-auth": "3.*",
     "twig/twig": "^2.0",
     "xobotyi/php-mime-type": "1.2.0",
