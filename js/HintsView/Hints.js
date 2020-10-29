@@ -23,53 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {IDBStorage} from "./IDBStorage";
+import 'bootstrap/dist/js/bootstrap'
 
-export class Loader {
+export class Hints {
 
-    constructor(
-        request
-        , route
-        , dbName
-    ) {
-        this.request = request;
-        this.route = route;
-        this.storage = new IDBStorage(dbName);
-    }
-
-    async load(clearFirst = false) {
-
-        const _this = this;
-
-        _this.request.get(
-            _this.route
-            , {}
-            , async (x, y, z) => {
-
-                if (true === clearFirst) {
-                    await _this.storage.clear()
-                }
-
-                await _this.storage.addAll(x);
-
-            }
-        );
-    }
-
-    async read() {
-        const _this = this;
-        return new Promise((resolve, reject) => {
-            _this.request.get(
-                _this.route
-                , {}
-                , async (x, y, z) => {
-                    resolve(x);
-                }
-                , async (x, y, z) => {
-                    reject(x);
-                }
-            );
-        });
+    async run() {
     }
 
 }

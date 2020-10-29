@@ -35,8 +35,8 @@ export class IDBStorage {
         });
     }
 
-    async add(key, template) {
-        await this.store.setItem(key, template)
+    async add(key, value) {
+        await this.store.setItem(key, value)
     }
 
     async clear() {
@@ -58,13 +58,13 @@ export class IDBStorage {
         return result;
     }
 
-    async addAll(templates) {
-        for (let name in templates) {
-            if (templates.hasOwnProperty(name)) {
+    async addAll(values) {
+        for (let name in values) {
+            if (values.hasOwnProperty(name)) {
 
                 await this.add(
                     name
-                    , templates[name]
+                    , values[name]
                 );
 
             }

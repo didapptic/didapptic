@@ -30,6 +30,7 @@ namespace Didapptic\Controller\Settings;
 
 use Didapptic\Controller\AbstractController;
 use Didapptic\Didapptic;
+use Didapptic\Object\Constant\JavaScript;
 use Didapptic\Object\Constant\View;
 use Didapptic\Object\Permission;
 use Didapptic\Repository\UserRepository;
@@ -63,6 +64,7 @@ class SettingsController extends AbstractController {
         , UserService $userService
     ) {
         parent::__construct($translationService->translate("Einstellungen"));
+        $this->registerJavaScript(JavaScript::SETTINGS_SCRIPT);
 
         $this->translationService = $translationService;
         $this->userRepository     = $userRepository;
@@ -71,11 +73,9 @@ class SettingsController extends AbstractController {
     }
 
     protected function onCreate(): void {
-
         $this->isAdmin = $this->permissionService->hasPermission(
             $this->permissionService->toPermission(Permission::MENU_SETTINGS_EDIT_USERS)
         );
-
     }
 
     protected function create(): ?string {
@@ -99,7 +99,7 @@ class SettingsController extends AbstractController {
                 , "isAdmin"          => $this->isAdmin
                 , "baseUrl"          => Didapptic::getBaseURL(true)
                 , "editUserRoute"    => "/menu/profile/"
-                , "myUser"             => $this->userService->getUser()
+                , "myUser"           => $this->userService->getUser()
             ]
         );
     }

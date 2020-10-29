@@ -30,6 +30,7 @@ namespace Didapptic\Controller;
 
 use Didapptic\Didapptic;
 use Didapptic\Object\Application\Supporter\Supporter;
+use Didapptic\Object\Constant\JavaScript;
 use Didapptic\Object\Constant\View;
 use Didapptic\Object\Environment;
 
@@ -47,6 +48,7 @@ class AboutViewController extends AbstractController {
     public function __construct(Environment $environment) {
         parent::__construct("Über Uns");
         $this->environment = $environment;
+        $this->registerJavaScript(JavaScript::ABOUT_SCRIPT);
     }
 
     protected function onCreate(): void {

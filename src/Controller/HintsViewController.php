@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Didapptic\Controller;
 
 use Didapptic\Didapptic;
+use Didapptic\Object\Constant\JavaScript;
 use Didapptic\Object\Constant\View;
 
 /**
@@ -41,6 +42,7 @@ class HintsViewController extends AbstractController {
 
     public function __construct() {
         parent::__construct("Hinweise");
+        $this->registerJavaScript(JavaScript::HINTS_SCRIPT);
     }
 
     protected function onCreate(): void {

@@ -36,17 +36,20 @@ namespace Didapptic\Object\Constant;
  */
 class JavaScript {
 
-    public const MATERIAL_SCRIPT             = "materialView";
-    public const MAIN_SCRIPT                 = "mainView";
-    public const CONTACT_SCRIPT              = "contactView";
-    public const PASSWORD_LOST_SCRIPT        = "passwordLostView";
-    public const LOGIN_VIEW                  = "loginView";
-    public const NEW_APP_SCRIPT              = "newAppView";
-    public const NEW_USER                    = "newUserView";
-    public const PROFILE                     = "profileView";
-    public const RESET_PASSWORD_SCRIPT       = "resetPasswordView";
-    public const EDIT_APP_SCRIPT             = "editAppView";
-    public const PARTNER                     = "partner";
+    public const ABOUT_SCRIPT          = "aboutView";
+    public const CONTACT_SCRIPT        = "contactView";
+    public const EDIT_APP_SCRIPT       = "editAppView";
+    public const HINTS_SCRIPT          = "hintsView";
+    public const LOGIN_VIEW            = "loginView";
+    public const MAIN_SCRIPT           = "mainView";
+    public const MATERIAL_SCRIPT       = "materialView";
+    public const NEW_APP_SCRIPT        = "newAppView";
+    public const NEW_USER              = "newUserView";
+    public const PARTNER               = "partner";
+    public const PASSWORD_LOST_SCRIPT  = "passwordLostView";
+    public const PROFILE               = "profileView";
+    public const RESET_PASSWORD_SCRIPT = "resetPasswordView";
+    public const SETTINGS_SCRIPT       = "settingsView";
 
     private function __construct() {
         // in order to have a class holding

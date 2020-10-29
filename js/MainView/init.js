@@ -38,56 +38,55 @@ import {ArrayService} from "../Library/Service/DataType/ArrayService";
 import {IntegerService} from "../Library/Service/DataType/IntegerService";
 import {DidappticModal} from "../Library/Modal/DidappticModal";
 
-$(document).ready(async () => {
-    const host = $("#data-node").attr("data-host");
+$(document).ready(
+    async () => {
+        const fetcher = new Fetcher();
+        const environment = new Environment();
+        const stringService = new StringService();
+        const arrayService = new ArrayService();
+        const integerService = new IntegerService();
 
-    const fetcher = new Fetcher();
-    const environment = new Environment();
-    const stringService = new StringService();
-    const arrayService = new ArrayService();
-    const integerService = new IntegerService();
+        const globalRoutes = new GlobalRoutes(
+            environment
+        );
+        const routes = new Routes(
+            environment
+        );
+        const templateLoader = new TemplateLoader(
+            fetcher
+            , globalRoutes
+        );
 
-    const globalRoutes = new GlobalRoutes(
-        environment
-    );
-    const routes = new Routes(
-        environment
-    );
-    const templateLoader = new TemplateLoader(
-        fetcher
-        , globalRoutes
-    );
+        const stringLoader = new StringLoader(
+            fetcher
+            , globalRoutes
+        );
 
-    const stringLoader = new StringLoader(
-        fetcher
-        , globalRoutes
-    );
+        await templateLoader.load(true);
+        await stringLoader.load(true);
 
-    await templateLoader.load(true);
-    await stringLoader.load(true);
+        const templateParser = new Parser();
+        const filter = new Filter(
+            stringService
+            , arrayService
+            , stringLoader
+        );
 
-    const templateParser = new Parser();
-    const filter = new Filter(
-        stringService
-        , arrayService
-        , stringLoader
-    );
+        const modal = new DidappticModal(
+            templateLoader
+            , templateParser
+        )
 
-    const modal = new DidappticModal(
-        templateLoader
-        , templateParser
-    )
+        const mainView = new MainView(
+            templateLoader
+            , stringLoader
+            , templateParser
+            , fetcher
+            , routes
+            , filter
+            , integerService
+            , modal
+        );
+        await mainView.run();
 
-    const mainView = new MainView(
-        templateLoader
-        , stringLoader
-        , templateParser
-        , fetcher
-        , routes
-        , filter
-        , integerService
-        , modal
-    );
-    await mainView.run();
-
-});
+    });
