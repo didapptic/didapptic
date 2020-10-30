@@ -46,3 +46,6 @@ Didaptic is a open source app database mainly intended for the education sector.
     - node_modules/
     - config
 
+## Hints
+
+* if npm does not install, check your version. On Ubuntu, newer versions installed here:  /usr/local/bin/npm 
