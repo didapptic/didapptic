@@ -45,8 +45,7 @@ class PartnerViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::PARTNER_VIEW
+            View::PARTNER_VIEW
         );
 
         return $template->render([

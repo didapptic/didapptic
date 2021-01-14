@@ -57,7 +57,7 @@ class RemainingApps extends AbstractSubmit {
     }
 
     protected function valid(): bool {
-        $this->chunkSize = $this->getArgument("chunkSize");
+        $this->chunkSize = (string) $this->getArgument("chunkSize");
         return true === is_numeric($this->chunkSize);
     }
 

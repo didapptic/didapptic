@@ -53,8 +53,7 @@ class PasswordLostController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::PASSWORD_LOST_VIEW
+            View::PASSWORD_LOST_VIEW
         );
 
         return $template->render([

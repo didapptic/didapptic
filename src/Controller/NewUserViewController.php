@@ -36,7 +36,8 @@ use Didapptic\Service\App\Metadata\MetadataService;
 
 class NewUserViewController extends AbstractController {
 
-    private $subjects = null;
+    /** @var array */
+    private $subjects;
     /** @var MetadataService */
     private $metadataService;
 
@@ -60,8 +61,7 @@ class NewUserViewController extends AbstractController {
         );
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::NEW_USER_VIEW
+             View::NEW_USER_VIEW
         );
 
         if (isset($this->subjects[-1])) unset($this->subjects[-1]);

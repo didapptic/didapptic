@@ -50,17 +50,12 @@ class Compiler {
     /** @var lessc */
     private $less;
 
-    /** @var Environment */
-    private $environment;
-
     /**
      * Compiler constructor.
      *
-     * @param Environment $environment
      */
-    public function __construct(Environment $environment) {
-        $this->less        = new lessc();
-        $this->environment = $environment;
+    public function __construct() {
+        $this->less = new lessc();
         $this->setUp();
     }
 
@@ -70,7 +65,7 @@ class Compiler {
     }
 
     private function setUpForProduction(): void {
-        if (true === $this->environment->isDebug()) return;
+//        if (true === $this->environment->isDebug()) return; // TODO there is no sys properties file on build
         $this->less->setFormatter("compressed");
     }
 

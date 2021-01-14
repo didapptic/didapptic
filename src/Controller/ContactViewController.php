@@ -50,10 +50,7 @@ class ContactViewController extends AbstractController {
 
     protected function create(): ?string {
 
-        $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::CONTACT
-        );
+        $template = parent::loadTemplate(View::CONTACT);
 
         return $template->render(
             [

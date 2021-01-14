@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Didapptic\Object;
 
 use DateTime;
+use DateTimeInterface;
 use JsonSerializable;
 
 /**
@@ -62,7 +63,7 @@ class App implements JsonSerializable {
     private $publisherEmail;
     /** @var string */
     private $storeId;
-    /** @var DateTime */
+    /** @var DateTimeInterface */
     private $lastUpdated;
     /** @var DateTime|null */
     private $releaseDate;
@@ -96,7 +97,7 @@ class App implements JsonSerializable {
     private $iconUrl;
     /** @var double */
     private $avgRating;
-    /** @var string */
+    /** @var string|null */
     private $iosPrivacy;
     /** @var int */
     private $privacyCode;
@@ -106,11 +107,11 @@ class App implements JsonSerializable {
     private $supportedDevices;
     /** @var string */
     private $bundleId;
-    /** @var DateTime */
+    /** @var DateTime|null */
     private $deleteTs;
     /** @var DateTime|null */
     private $lastUserUpdateTs;
-    /** @var DateTime */
+    /** @var DateTime|null */
     private $createTs;
     /** @var string */
     private $priceCurrency;
@@ -301,16 +302,16 @@ class App implements JsonSerializable {
     }
 
     /**
-     * @return DateTime
+     * @return DateTimeInterface
      */
-    public function getLastUpdated(): DateTime {
+    public function getLastUpdated(): DateTimeInterface {
         return $this->lastUpdated;
     }
 
     /**
-     * @param DateTime $lastUpdated
+     * @param DateTimeInterface $lastUpdated
      */
-    public function setLastUpdated(DateTime $lastUpdated): void {
+    public function setLastUpdated(DateTimeInterface $lastUpdated): void {
         $this->lastUpdated = $lastUpdated;
     }
 

@@ -46,13 +46,14 @@ class AppSubjectRepository {
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
+        /** @phpstan-ignore-next-line */
         $this->connector->getConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function addSubject(int $appId, int $subjectId): bool {
         $sql       = "insert into `app_subject`(`app_id`, `subject_id`) VALUES (:app_id, :sub_id);";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+
         $statement->bindParam(":app_id", $appId);
         $statement->bindParam(":sub_id", $subjectId);
         return $statement->execute();
@@ -62,7 +63,8 @@ class AppSubjectRepository {
         $this->connector->startTransaction();
         $sql       = "DELETE FROM `app_subject` WHERE `app_id` = :app_id;";
         $statement = $this->connector->prepare($sql);
-        $appId     = $app->getId();
+
+        $appId = $app->getId();
         $statement->bindParam("app_id", $appId);
         $executed = $statement->execute();
         if ($executed) {

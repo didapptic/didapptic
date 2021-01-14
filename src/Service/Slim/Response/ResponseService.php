@@ -45,7 +45,7 @@ class ResponseService {
         $response = $response->withStatus(HTTP::UNAUTHORIZED);
         $response->getBody()
             ->write(
-                json_encode(
+                (string) json_encode(
                     [
                         FrontendResponse::FIELD_NAME_RESPONSE_CODE => FrontendResponse::OK
                         , FrontendResponse::FIELD_NAME_CONTENT     => [

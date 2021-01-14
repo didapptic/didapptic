@@ -60,8 +60,8 @@ class Strings extends AbstractResource {
             $this->frontendManager->getAll()
         );
         $this->setMimeType(MimeType::JSON);
-
-        return json_encode($templates);
+        $json = json_encode($templates);
+        return false === $json ? null : $json;
     }
 
     private function hashTableToArray(HashMap $map): array {

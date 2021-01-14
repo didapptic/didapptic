@@ -65,7 +65,7 @@ class Resource extends Action {
         Request $request
         , Response $response
         , array $arguments
-    ) {
+    ): Response {
 
         /** @var Route $route */
         $route   = $request->getAttributes()['route'];

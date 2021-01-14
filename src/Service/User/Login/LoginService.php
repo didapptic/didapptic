@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Didapptic\Service\User\Login;
 
 use Didapptic\Object\User;
+use Exception;
 
 /**
  * Class LoginService
@@ -41,8 +42,13 @@ class LoginService {
     public function verifyUser(?User $user, ?User $fromBackend): bool {
         if (null === $user) return false;
         if (null === $fromBackend) return false;
+        $plainPassword = $user->getPlainPassword();
 
-        if (password_verify($user->getPlainPassword(), $fromBackend->getPassword()) &&
+        if (null === $plainPassword) {
+            throw new Exception('no password to verify');
+        }
+
+        if (password_verify($plainPassword, $fromBackend->getPassword()) &&
             $fromBackend->getName() === $user->getName()) {
             return true;
         }

@@ -42,12 +42,12 @@ use Didapptic\Service\Application\I18N\TranslationService;
 use Didapptic\Service\User\Permission\PermissionService;
 use Didapptic\Service\User\UserService;
 use doganoo\INotify\Notification\INotification;
-use doganoo\INotify\Notification\INotificationList;
 use doganoo\INotify\Notification\Type\IType;
 use doganoo\INotify\Participant\IReceiver;
 use doganoo\PHPAlgorithms\Algorithm\Traversal\PreOrder;
 use doganoo\PHPAlgorithms\Datastructure\Lists\ArrayLists\ArrayList;
 use doganoo\PHPAlgorithms\Datastructure\Maps\HashMap;
+use Exception;
 
 /**
  * Class ProfileController
@@ -77,7 +77,7 @@ class ProfileController extends AbstractController {
     private $roleRepository;
     /** @var ArrayList */
     private $roles;
-    /** @var INotificationList|ArrayList */
+    /** @var ArrayList */
     private $notifications;
 
     public function __construct(
@@ -106,7 +106,13 @@ class ProfileController extends AbstractController {
         $this->isAdmin = $this->permissionService->hasPermission(
             $this->permissionService->toPermission(Permission::MENU_SETTINGS_ADMIN)
         );
-        $this->user    = $this->userService->getUser();
+        $user          = $this->userService->getUser();
+
+        if (null === $user) {
+            throw new Exception('user not found :(');
+        }
+
+        $this->user = $user;
         /** @var HashMap $users */
         $users               = Didapptic::getServer()->query(Server::USER_HASH_MAP);
         $this->profile       = $users->get(
@@ -133,17 +139,18 @@ class ProfileController extends AbstractController {
         }
 
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::PROFILE_VIEW
+            View::PROFILE_VIEW
         );
 
         $profileRoles = [];
-        $preOrder     = new PreOrder($this->profile->getRoles());
-        $preOrder->setCallable(function ($value) use (&$profileRoles) {
-            $profileRoles[] = (int) $value;
-        });
-        $preOrder->traverse();
 
+        if (null !== $this->profile->getRoles()) {
+            $preOrder = new PreOrder($this->profile->getRoles());
+            $preOrder->setCallable(function ($value) use (&$profileRoles) {
+                $profileRoles[] = (int) $value;
+            });
+            $preOrder->traverse();
+        }
         $profileNotifications = [];
         /** @var INotification $notification */
         foreach ($this->notifications as $index => $notification) {
@@ -200,11 +207,11 @@ class ProfileController extends AbstractController {
                 , "notifications"               => $this->notifications
                 , "profileNotifications"        => $profileNotifications
                 , "hasNotifications"            => 0 !== $this->notifications->length()
-                , "passwordPolicy"            => "Das Passwort muss mindestens folgende Anforderungen erfüllen:<br><ul><li>mindestens 8 Zeichen</li><li>mindestens einen Großbuchstaben</li><li>mindestens ein Kleinbuchstaben</li><li>mindestens eine Zahl</li></ul>"
-                , "typeNames" => [
-                    IType::MAIL => $this->translationService->translate("E-Mail")
-                    , IType::LOG => $this->translationService->translate("Datei Log")
-                    , IType::PLAIN_MAIL => $this->translationService->translate("Text E-Mail")
+                , "passwordPolicy"              => "Das Passwort muss mindestens folgende Anforderungen erfüllen:<br><ul><li>mindestens 8 Zeichen</li><li>mindestens einen Großbuchstaben</li><li>mindestens ein Kleinbuchstaben</li><li>mindestens eine Zahl</li></ul>"
+                , "typeNames"                   => [
+                IType::MAIL         => $this->translationService->translate("E-Mail")
+                , IType::LOG        => $this->translationService->translate("Datei Log")
+                , IType::PLAIN_MAIL => $this->translationService->translate("Text E-Mail")
             ]
             ]
         );
@@ -212,8 +219,7 @@ class ProfileController extends AbstractController {
 
     private function handleError(string $text): string {
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::ALERT_VIEW
+            View::ALERT_VIEW
         );
 
         return $template->render(

@@ -33,6 +33,7 @@ use Didapptic\Repository\UserRepository;
 use Didapptic\Service\Application\WordPress\WordPressService;
 use Didapptic\Service\User\UserService;
 use doganoo\PHPUtil\Log\FileLogger;
+use Exception;
 
 /**
  * Class PasswordUpdateSubmit
@@ -82,11 +83,22 @@ class PasswordUpdateSubmit extends AbstractSubmit {
     }
 
     protected function create(): bool {
-        $password       = $this->getArgument("password");
+        $password = $this->getArgument("password");
+        $userId   = $this->getArgument("user");
+        $token    = $this->getArgument("token");
+
+        if (null === $password) {
+            throw new Exception('password missing');
+        }
+        if (null === $userId) {
+            throw new Exception('userid missing');
+        }
+        if (null === $token) {
+            throw new Exception('token missing');
+        }
+
         $hashedPassword = $this->userService->hashPassword($password);
 
-        $userId = $this->getArgument("user");
-        $token  = $this->getArgument("token");
 
         $user = $this->userManager->getUserById((int) $userId);
 

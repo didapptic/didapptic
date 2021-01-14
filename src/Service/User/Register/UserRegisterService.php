@@ -79,6 +79,7 @@ class UserRegisterService {
         }
 
         $registrant->merge(
+        /** @phpstan-ignore-next-line */
             $this->userManager->getUserById($lastInsertId)
         );
         return $registrant;

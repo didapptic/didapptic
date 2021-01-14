@@ -55,7 +55,7 @@ function sanitizeStoreId(string $storeId): string {
     $delimiter = "&";
     if (false === strpos($storeId, $delimiter)) return $storeId;
     $data = explode($delimiter, $storeId);
-    if (false === $data) return $storeId;
+//    if (false === $data) return $storeId;
     if (1 === count($data)) return $storeId;
     return (string) $data[0];
 }

@@ -39,7 +39,7 @@ use DidappticTest\Test\TestCase;
  */
 class UserServiceTest extends TestCase {
 
-    public function testStrongPassword() {
+    public function testStrongPassword(): void {
         $passwords = [
             "foo"           => false
             , "Dogan"       => false

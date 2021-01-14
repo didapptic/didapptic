@@ -94,8 +94,7 @@ class File extends AbstractResource {
         }
 
         $this->setMimeType($mimeType);
-
-        return file_get_contents($path);
+        return (string) file_get_contents($path);
     }
 
     protected function onDestroy(): void {

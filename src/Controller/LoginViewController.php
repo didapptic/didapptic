@@ -54,8 +54,7 @@ class LoginViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::LOGIN_VIEW
+             View::LOGIN_VIEW
         );
 
         $baseUrl          = Didapptic::getBaseURL(true);

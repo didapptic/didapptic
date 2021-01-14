@@ -46,13 +46,13 @@ class AppTagRepository {
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
+        /** @phpstan-ignore-next-line */
         $this->connector->getConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function addTag(int $appId, int $tagId): bool {
         $sql       = "insert into `app_tag` (`app_id`, `tag_id`) VALUES (:app_id, :tag_id);";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam(":app_id", $appId);
         $statement->bindParam(":tag_id", $tagId);
         return $statement->execute();

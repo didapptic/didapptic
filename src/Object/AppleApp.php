@@ -37,14 +37,22 @@ namespace Didapptic\Object;
  */
 class AppleApp extends App {
 
-    private $gameCenterEnabled  = false;
+    /** @var bool */
+    private $gameCenterEnabled = false;
+    /** @var string */
     private $itunesDeveloperUrl = "";
-    private $kind               = "";
-    private $features           = "";
-    private $languageCode       = "";
-    private $fileSize           = 0; //bytes
-    private $wrapperType        = "";
-    private $releaseNotes       = "";
+    /** @var string */
+    private $kind = "";
+    /** @var string */
+    private $features = "";
+    /** @var string */
+    private $languageCode = "";
+    /** @var int */
+    private $fileSize = 0; //bytes
+    /** @var string */
+    private $wrapperType = "";
+    /** @var string */
+    private $releaseNotes = "";
     /** @var array */
     private $genres;
 

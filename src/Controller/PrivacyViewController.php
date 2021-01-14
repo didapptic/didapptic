@@ -50,8 +50,7 @@ class PrivacyViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::PRIVACY_VIEW
+            View::PRIVACY_VIEW
         );
 
         $baseUrl = Didapptic::getBaseURL(true);

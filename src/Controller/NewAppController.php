@@ -45,12 +45,18 @@ use Didapptic\Service\User\UserService;
  */
 class NewAppController extends AbstractController {
 
-    private $categories      = null;
-    private $privacy         = null;
-    private $recommendations = null;
-    private $studySubject    = null;
-    private $tags            = null;
-    private $properties      = null;
+    /** @var array */
+    private $categories;
+    /** @var array */
+    private $privacy;
+    /** @var array */
+    private $recommendations;
+    /** @var array */
+    private $studySubject;
+    /** @var array */
+    private $tags;
+    /** @var Environment */
+    private $properties;
     /** @var UserService */
     private $userService;
     /** @var Processor */
@@ -95,8 +101,7 @@ class NewAppController extends AbstractController {
         $user = $this->userService->getUser();
 
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::APP_FORM_VIEW
+            View::APP_FORM_VIEW
         );
 
         $newSubjectPermitted  = $this->hasPermission(Permission::SUBMIT_NEW_SUBJECT);

@@ -13,7 +13,8 @@ use PDO;
 
 class RoleRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -30,8 +31,6 @@ class RoleRepository {
                     FROM `role` r
         ";
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) return $list;
 
         $statement->execute();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {

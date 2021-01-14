@@ -39,8 +39,8 @@ use Tuupola\Middleware\HttpBasicAuthentication\AuthenticatorInterface;
  */
 class MaterialViewAuthentication implements AuthenticatorInterface {
 
-    /** @var null|Environment $properties */
-    private $properties = null;
+    /** @var Environment $properties */
+    private $properties;
 
     public function __construct(Environment $properties) {
         $this->properties = $properties;

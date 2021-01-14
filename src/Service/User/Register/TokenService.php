@@ -32,8 +32,13 @@ use DateTime;
 use Didapptic\Object\Environment;
 use Didapptic\Object\Token;
 
+/**
+ * Class TokenService
+ * @package Didapptic\Service\User\Register
+ */
 class TokenService {
 
+    /** @var Environment */
     private $environment;
 
     public function __construct(Environment $environment) {

@@ -29,6 +29,8 @@ declare(strict_types=1);
 namespace Didapptic\Repository;
 
 use doganoo\PHPUtil\Storage\PDOConnector;
+use PDO;
+use function strpos;
 
 /**
  * Class DatabaseManager
@@ -38,7 +40,8 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class DatabaseRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -48,14 +51,12 @@ class DatabaseRepository {
     public function updateSchemaInformation(string $schemaName, string $characterSet, string $collation): bool {
         $sql       = "ALTER DATABASE $schemaName CHARACTER SET $characterSet COLLATE $collation;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         return $statement->execute();
     }
 
     public function updateTableInformation(string $table, string $characterSet, string $collation): bool {
         $sql       = "ALTER TABLE $table CONVERT TO CHARACTER SET $characterSet COLLATE $collation;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         return $statement->execute();
     }
 
@@ -68,11 +69,10 @@ class DatabaseRepository {
                 WHERE s.schema_name = :name;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return $result;
         $statement->bindParam(":name", $schemaName);
         $statement->execute();
 
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $characterSet = $row[0];
             $collation    = $row[1];
 
@@ -93,12 +93,11 @@ class DatabaseRepository {
                 WHERE c.collation_name = t.table_collation
                   AND t.table_schema = :schema_name";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return $result;
 
         $statement->bindParam(":schema_name", $schemaName);
         $statement->execute();
 
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $characterSet = $row[0];
             $collation    = $row[1];
             $tableName    = $row[2];
@@ -113,12 +112,12 @@ class DatabaseRepository {
         return $result;
     }
 
-    public function updateColumns(string $table) {
+    public function updateColumns(string $table): void {
         $columns = $this->getColumnNames($table);
 
         foreach ($columns as $column => $type) {
-            if (\strpos($type, "varchar") ||
-                \strpos($type, "text")) {
+            if (strpos($type, "varchar") ||
+                strpos($type, "text")) {
 
                 $sql = 'UPDATE  ' . $table . ' SET
               `' . $column . '`= REPLACE(`' . $column . '`, "ÃŸ", "ß"),
@@ -131,20 +130,18 @@ class DatabaseRepository {
               `' . $column . '`= REPLACE(`' . $column . '`, "â‚¬","€")';
 
                 $statement = $this->connector->prepare($sql);
-                if (null === $statement) continue;
                 $statement->execute();
             }
         }
     }
 
-    public function getColumnNames(string $table) {
+    public function getColumnNames(string $table): array {
         $result    = [];
         $sql       = "DESCRIBE $table;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return $result;
         $statement->execute();
         $rows = [];
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $rows[$row['Field']] = $row['Type'];
         }
         return $rows;

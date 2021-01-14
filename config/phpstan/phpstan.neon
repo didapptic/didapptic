@@ -5,3 +5,5 @@ parameters:
 	    - %rootDir%/../../
 	    - %rootDir%/../../../src/Repository/Migration/*
 	bootstrap: %rootDir%/../../../config/phpstan/bootstrap.php
+
+	checkMissingIterableValueType: false

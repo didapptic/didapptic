@@ -43,7 +43,8 @@ use PDO;
  */
 class SessionManager {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -53,7 +54,6 @@ class SessionManager {
     public function get(string $id): ?string {
         $sql       = "SELECT `data` FROM `session` WHERE `id` = :id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
         $statement->bindParam("id", $id);
         $executed = $statement->execute();
         if (false === $executed) return null;
@@ -70,7 +70,6 @@ class SessionManager {
     public function getAll(): ?array {
         $sql       = "SELECT `id`, `data`, `update_ts` FROM `session`;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
         $executed = $statement->execute();
         if (false === $executed) return null;
         if (true === $this->hasErrors($statement->errorCode())) return null;
@@ -96,7 +95,6 @@ class SessionManager {
         }
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $updateTs = DateTimeUtil::formatMysqlDateTime(new DateTime());
         $statement->bindParam("id", $id);
         $statement->bindParam("thedata", $data);
@@ -108,7 +106,6 @@ class SessionManager {
     public function deleteById(string $id): bool {
         $sql       = "DELETE FROM `session` WHERE `id` = :id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam("id", $id);
         $executed = $statement->execute();
         return true === $executed && false === $this->hasErrors($statement->errorCode());
@@ -117,7 +114,6 @@ class SessionManager {
     public function deleteByLastUpdate(int $maxLifeTime): bool {
         $sql       = "DELETE FROM `session` WHERE `update_ts` = :updatets";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $updateTs = (new DateTime())->getTimestamp() - $maxLifeTime;
         $statement->bindParam("updatets", $updateTs);
         $executed = $statement->execute();

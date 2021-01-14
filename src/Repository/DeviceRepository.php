@@ -28,7 +28,9 @@ declare(strict_types=1);
 
 namespace Didapptic\Repository;
 
+use DateTime;
 use doganoo\PHPUtil\Storage\PDOConnector;
+use PDO;
 
 /**
  * Class DeviceManager
@@ -38,7 +40,8 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class DeviceRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -46,26 +49,22 @@ class DeviceRepository {
     }
 
     public function exists(string $key): bool {
-        $connection = $this->connector->getConnection();
-        $sql        = "SELECT exists(SELECT name FROM device WHERE name = :name);";
-        $statement  = $connection->prepare($sql);
-        if (!$statement) {
-            return false;
-        }
+        $sql       = "SELECT exists(SELECT name FROM device WHERE name = :name);";
+        $statement = $this->connector->prepare($sql);
         $statement->bindParam(":name", $key);
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return false;
         }
-        $row    = $statement->fetch(\PDO::FETCH_BOTH);
+        $row    = $statement->fetch(PDO::FETCH_BOTH);
         $exists = $row[0];
         return $exists == "1";
     }
 
     public function add(int $appId, string $name): bool {
         $sql       = "INSERT INTO device (name, app_id, create_ts) values (:name, :app_id, :create_ts);";
-        $createTs  = (new \DateTime())->getTimestamp();
-        $statement = $this->connector->getConnection()->prepare($sql);
+        $createTs  = (new DateTime())->getTimestamp();
+        $statement = $this->connector->prepare($sql);
         $statement->bindParam(":name", $name);
         $statement->bindParam(":app_id", $appId);
         $statement->bindParam(":create_ts", $createTs);
@@ -88,13 +87,10 @@ class DeviceRepository {
                     where d.app_id = :app_id;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
 
         $statement->bindParam("app_id", $appId);
         $statement->execute();
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $id   = $row[0];
             $name = $row[1];
             if ($id === "" || $name === "") {

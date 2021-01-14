@@ -41,7 +41,8 @@ use PDO;
  */
 class SessionRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -51,7 +52,7 @@ class SessionRepository {
     public function get(string $id): ?string {
         $sql       = "SELECT `data` FROM `session` WHERE `id` = :id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
+
         $statement->bindParam("id", $id);
         $executed = $statement->execute();
         if (false === $executed) return null;
@@ -68,7 +69,7 @@ class SessionRepository {
     public function replace(string $id, string $data): bool {
         $sql       = "REPLACE INTO `session`(`id`, `data`, `update_ts`) VALUES (:id, :thedata, :updatets)";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+
         $updateTs = DateTimeUtil::formatMysqlDateTime(new DateTime());
         $statement->bindParam("id", $id);
         $statement->bindParam("thedata", $data);

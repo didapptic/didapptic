@@ -41,6 +41,7 @@ use doganoo\IN\Participant\NotificationList;
 use doganoo\INotify\Notification\INotification;
 use doganoo\INotify\Notification\INotificationList;
 use doganoo\INotify\Notification\Type\IType;
+use Exception;
 
 /**
  * Class UpdateUserSubmit
@@ -104,6 +105,10 @@ class UpdateUserSubmit extends AbstractSubmit {
     protected function create(): bool {
         $arguments = $this->getArguments();
         $user      = $this->userService->toUser($arguments);
+
+        if (null === $user) {
+            throw new Exception('user is null');
+        }
 
         $cacheUsers = Didapptic::getServer()->getUsersFromCache();
 

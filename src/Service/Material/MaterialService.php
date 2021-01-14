@@ -37,6 +37,7 @@ use Didapptic\Service\File\Mime\MimeService;
 use doganoo\PHPUtil\FileSystem\DirHandler;
 use doganoo\PHPUtil\Log\FileLogger;
 use doganoo\PHPUtil\Util\DateTimeUtil;
+use Exception;
 use SplFileInfo;
 
 /**
@@ -62,6 +63,10 @@ class MaterialService {
 
     public function remove(Material $material): bool {
 
+        if (null === $material->getId()) {
+            throw new Exception('no material id to delete');
+        }
+
         $deleted = $this->materialManager->delete($material->getId());
 
         if (false === $deleted) return false;
@@ -71,7 +76,7 @@ class MaterialService {
 
         if (null !== $files) {
             /** @var File $file */
-            foreach ($material->getFiles() as $file) {
+            foreach ($files as $file) {
                 $path       = $file->getPath();
                 $deleted    = @unlink($path);
                 $deletedAll = $deletedAll && $deleted;
@@ -83,7 +88,7 @@ class MaterialService {
     }
 
     public function verifyPassword(Material $material, string $password): bool {
-        return password_verify($password, $material->getPassword());
+        return password_verify($password, (string) $material->getPassword());
     }
 
     public function upload(array $parameters): bool {
@@ -127,14 +132,14 @@ class MaterialService {
         $material->setCreatorId($user);
         $material->setCreateTs(DateTimeUtil::getUnixTimestamp());
         $material->setName($name);
-        $material->setPassword($password);
+        $material->setPassword((string) $password);
 
         foreach ($files as $key => $file) {
             $filePath    = $file["file_path"] ?? "";
             $splFileInfo = new SplFileInfo($filePath);
 
             $extension = $splFileInfo->getExtension();
-            $mimeType  = mime_content_type($splFileInfo->getRealPath());
+            $mimeType  = mime_content_type((string) $splFileInfo->getRealPath());
             $mimes     = $this->mimeService->getSupportedMimeTypes();
 
             foreach ($mimes as $extension => $mime) {
@@ -146,22 +151,22 @@ class MaterialService {
 
             $path     = $this->getMaterialUploadPath();
             $path     = $path . "/" . md5(uniqid()) . "." . $extension;
-            $content  = file_get_contents($splFileInfo->getRealPath());
-            $fileSize = filesize($splFileInfo->getRealPath());
+            $content  = file_get_contents((string) $splFileInfo->getRealPath());
+            $fileSize = filesize((string) $splFileInfo->getRealPath());
 
             $__file = new File();
             $__file->setCreateTs(DateTimeUtil::getUnixTimestamp());
             $__file->setCreatorId($user);
             $__file->setName($file["name"]);
             $__file->setPath($path);
-            $__file->setHash(md5($content));
-            $__file->setMimeType($mimeType);
-            $__file->setContent($content);
-            $__file->setSize($fileSize);
+            $__file->setHash((string) md5((string) $content));
+            $__file->setMimeType((string) $mimeType);
+            $__file->setContent((string) $content);
+            $__file->setSize((int) $fileSize);
 
             $material->addFile($__file);
 
-            unlink($splFileInfo->getRealPath());
+            unlink((string) $splFileInfo->getRealPath());
         }
 
         $lastId = $this->materialManager->insert($material);
@@ -170,7 +175,7 @@ class MaterialService {
         }
 
         /** @var File $file */
-        foreach ($material->getFiles() as $file) {
+        foreach ($material->getFiles() ?? [] as $file) {
             $put &= @file_put_contents($file->getPath(), $file->getContent());
         }
 
@@ -183,7 +188,7 @@ class MaterialService {
         $path       = $path . "/" . $dateTime->format("Y") . "/" . $dateTime->format("d");
         $dirHandler = new DirHandler($path);
         if (!$dirHandler->isDir()) $dirHandler->mkdir();
-        return $dirHandler->toRealPath();
+        return (string) $dirHandler->toRealPath();
     }
 
 }

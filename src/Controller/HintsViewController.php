@@ -52,8 +52,7 @@ class HintsViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::HINTS_VIEW_HTML
+             View::HINTS_VIEW_HTML
         );
 
         $baseUrl = Didapptic::getBaseURL(true);

@@ -39,7 +39,8 @@ use SessionHandlerInterface;
  */
 class SessionHandler implements SessionHandlerInterface {
 
-    private $sessionManager = null;
+    /** @var SessionManager */
+    private $sessionManager;
 
     public function __construct(SessionManager $sessionManager) {
         $this->sessionManager = $sessionManager;

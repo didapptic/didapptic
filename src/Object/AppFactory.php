@@ -130,6 +130,7 @@ class AppFactory {
         // field. Fix this when using!
         // $app->setNumberOfDownloads($downloads);
         $app->setBundleId($bundleId);
+        /** @phpstan-ignore-next-line */
         $app->setReleaseDate(DateTime::createFromFormat("Y-m-d", $releaseDate));
         $app->setOperatingSystem(App::ANDROID);
         $app->setStoreURL($storeURL);
@@ -146,6 +147,7 @@ class AppFactory {
         return "";
     }
 
+    /** @phpstan-ignore-next-line */
     private static function isEmptyString($value): bool {
         if (null === $value || trim((string) $value) === "") {
             return true;
@@ -153,7 +155,7 @@ class AppFactory {
         return false;
     }
 
-    public static function readArrayFloatField(array $array, $name): float {
+    public static function readArrayFloatField(array $array, string $name): float {
         if (isset($array[$name])) {
             if (!AppFactory::isEmptyString($array[$name])) {
                 return floatval($array[$name]);
@@ -245,6 +247,7 @@ class AppFactory {
             $app->setDeveloper($artistName);
             $app->setSupportedDevices($supportedDevices);
             $app->setPriceCurrency($currency);
+            /** @phpstan-ignore-next-line */
             $app->setGenres($genres);
             $app->setDeveloperWebsite($sellerUrl);
             $dateTime = null;
@@ -259,6 +262,7 @@ class AppFactory {
             $app->setStoreURL($storeUrl);
             $app = URLFactory::fromIOS($app, $result);
         }
+        /** @phpstan-ignore-next-line */
         return $app;
     }
 

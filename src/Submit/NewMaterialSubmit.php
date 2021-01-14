@@ -33,6 +33,8 @@ use Didapptic\Object\Environment;
 use Didapptic\Service\Material\MaterialService;
 use Didapptic\Service\User\UserService;
 use doganoo\PHPUtil\Log\FileLogger;
+use doganoo\SimpleRBAC\Common\IUser;
+use Exception;
 use function is_uploaded_file;
 
 /**
@@ -43,10 +45,14 @@ use function is_uploaded_file;
  */
 class NewMaterialSubmit extends AbstractSubmit {
 
-    private $parameters = null;
-    private $user       = null;
-    private $files      = null;
-    private $properties = null;
+    /** @var array */
+    private $parameters;
+    /** @var IUser|null */
+    private $user;
+    /** @var array|null */
+    private $files;
+    /** @var Environment */
+    private $environment;
     /** @var MaterialService */
     private $materialService;
     /** @var UserService */
@@ -58,7 +64,7 @@ class NewMaterialSubmit extends AbstractSubmit {
         , MaterialService $materialService
     ) {
         parent::__construct();
-        $this->properties      = $environment;
+        $this->environment     = $environment;
         $this->materialService = $materialService;
         $this->userService     = $userService;
     }
@@ -73,7 +79,7 @@ class NewMaterialSubmit extends AbstractSubmit {
         $nameNotEmpty        = $this->parameters["dd__name__input"] !== "";
         $enoughFiles         = count($this->parameters["files"]) > 0;
         $userExists          = null !== $this->user;
-        $enoughFiles2        = count($this->files) > 0;
+        $enoughFiles2        = count((array) $this->files) > 0;
 
         return
             true === $validDateTime
@@ -85,7 +91,7 @@ class NewMaterialSubmit extends AbstractSubmit {
 
     }
 
-    private function getFiles(array $files) {
+    private function getFiles(array $files): ?array {
 
         $result   = [];
         $names    = $files['name'] ?? null;
@@ -144,7 +150,7 @@ class NewMaterialSubmit extends AbstractSubmit {
     }
 
     private function validDatetime(string $date, string $format): bool {
-        return date($format, strtotime($date)) === $date;
+        return date($format, (int) strtotime($date)) === $date;
     }
 
     protected function onCreate(): void {
@@ -152,6 +158,9 @@ class NewMaterialSubmit extends AbstractSubmit {
     }
 
     protected function create(): bool {
+        if (null === $this->user) {
+            throw new Exception('no user');
+        }
         return $this->materialService->upload(
             [
                 "date"          => $this->parameters["dd__date__input"]

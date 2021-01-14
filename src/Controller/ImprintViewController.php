@@ -49,10 +49,7 @@ class ImprintViewController extends AbstractController {
 
     protected function create(): ?string {
 
-        $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::IMPRINT_VIEW
-        );
+        $template = parent::loadTemplate(View::IMPRINT_VIEW);
 
         $baseUrl = Didapptic::getBaseURL(true);
         return $template->render([

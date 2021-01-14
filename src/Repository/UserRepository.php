@@ -72,6 +72,7 @@ class UserRepository {
         $exists    = false;
         $sql       = "select exists(select id from user where name = :name);";
         $statement = $this->connector->prepare($sql);
+
         $statement->bindParam("name", $userName);
         $statement->execute();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
@@ -169,10 +170,9 @@ class UserRepository {
     private function logRegistration(Registrant $registrant, string $confirmationToken): bool {
         $sql       = "insert into registration_log (token, confirmation_token, user_info, create_ts) VALUES (:token, :confirmation_token, :user_info, :create_ts)";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
-        $now   = (new DateTime())->getTimestamp();
-        $json  = json_encode($registrant);
-        $token = null;
+        $now       = (new DateTime())->getTimestamp();
+        $json      = json_encode($registrant);
+        $token     = null;
         $statement->bindParam("token", $token);
         $statement->bindParam("confirmation_token", $confirmationToken);
         $statement->bindParam("user_info", $json);
@@ -181,10 +181,9 @@ class UserRepository {
         return $executed;
     }
 
-    private function setRoles(int $id, int $roleId = 2) {
+    private function setRoles(int $id, int $roleId = 2): bool {
         $sql       = "insert into user_role (role_id, user_id, create_ts) values (:role_id, :user_id, :create_ts);";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $timestamp = DateTimeUtil::getUnixTimestamp();
         $statement->bindParam("role_id", $roleId);
         $statement->bindParam("user_id", $id);
@@ -193,10 +192,9 @@ class UserRepository {
         return $statement->execute();
     }
 
-    private function addSubject($userId, $subjectId): void {
+    private function addSubject(int $userId, int $subjectId): void {
         $sql       = "INSERT INTO `user_subject`(`subject_id`, `user_id`) VALUES (:faecher_id, :user_id);";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return;
         $statement->bindParam(":faecher_id", $subjectId);
         $statement->bindParam(":user_id", $userId);
         $statement->execute();
@@ -215,9 +213,6 @@ class UserRepository {
         $statement = $this->connector->prepare($sql);
         $statement->bindParam(":id", $userId);
 
-        if (null === $statement) {
-            return null;
-        }
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return null;
@@ -253,9 +248,6 @@ class UserRepository {
                 left join user_role ur on r.id = ur.role_id
                 where ur.user_id = :user_id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return null;
-        }
         $statement->bindParam(":user_id", $id, PDO::PARAM_INT);
         $statement->execute();
 
@@ -278,10 +270,6 @@ class UserRepository {
                         where id = :id;";
         $statement = $this->connector->prepare($sql);
 
-        if (null === $statement) {
-            return false;
-        }
-
         $firstName = $user->getFirstName();
         $lastName  = $user->getLastName();
         $updatedAt = DateTimeUtil::getUnixTimestamp();
@@ -297,6 +285,7 @@ class UserRepository {
         $statement->bindParam("password", $password);
         $statement->execute();
         $roles = $this->roleService->toArray(
+        /** @phpstan-ignore-next-line */
             $user->getRoles()
         );
         $this->updateUserRoles($user->getId(), $roles);
@@ -334,9 +323,6 @@ class UserRepository {
         $statement = $this->connector->prepare($sql);
         $statement->bindParam(":name", $userName);
 
-        if (null === $statement) {
-            return null;
-        }
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return null;
@@ -377,8 +363,6 @@ class UserRepository {
                 FROM `user` u;";
 
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) return $userList;
 
         $statement->execute();
         if ($statement->rowCount() === 0) return $userList;

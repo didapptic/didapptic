@@ -21,7 +21,7 @@ class URLFactory {
 
     }
 
-    public static function fromIOS(App $app, $array) {
+    public static function fromIOS(App $app, array $array): App {
         $iconURL            = URLFactory::readStringArrayField($array, "artworkUrl512");
         $screenshotUrls     = URLFactory::readArrayField($array, "screenshotUrls");
         $ipadScreenshotUrls = URLFactory::readArrayField($array, "ipadScreenshotUrls");
@@ -39,7 +39,7 @@ class URLFactory {
         return URLFactory::isEmptyString($array[$name]) ? "" : $array[$name];
     }
 
-    private static function isEmptyString($value): bool {
+    private static function isEmptyString(?string $value): bool {
         if (null == $value || trim($value) == "") {
             return true;
         }
@@ -50,7 +50,7 @@ class URLFactory {
         return is_array($array[$name]) ? $array[$name] : [];
     }
 
-    public static function fromGoogle(App $app, $array) {
+    public static function fromGoogle(App $app, array $array): App {
         $iconURL        = URLFactory::readStringArrayField($array, "icon_url");
         $screenshotUrls = URLFactory::readArrayField($array, "screenshot_urls");
 

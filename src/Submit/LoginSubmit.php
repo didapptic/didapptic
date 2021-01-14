@@ -38,14 +38,13 @@ use Didapptic\Service\User\UserService;
 
 class LoginSubmit extends AbstractSubmit {
 
-    /** @var UserService|null $userService */
-    private $userService = null;
-    /** @var SessionService|null $sessionService */
-    private $sessionService = null;
-
-    /** @var User */
+    /** @var UserService $userService */
+    private $userService;
+    /** @var SessionService $sessionService */
+    private $sessionService;
+    /** @var User|null */
     private $user;
-    /** @var User */
+    /** @var User|null */
     private $backendUser;
     /** @var TranslationService */
     private $translationService;

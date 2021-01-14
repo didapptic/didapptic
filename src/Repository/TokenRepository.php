@@ -43,21 +43,22 @@ use PDO;
  */
 class TokenRepository {
 
-    private $connector   = null;
-    private $userManager = null;
-    private $minHours    = 4;
+    /** @var PDOConnector */
+    private $connector;
+    /** @var UserRepository */
+    private $userRepository;
+    /** @var int */
+    private $minHours = 4;
 
     public function __construct(PDOConnector $connector, UserRepository $userManager) {
-        $this->connector   = $connector;
-        $this->userManager = $userManager;
+        $this->connector      = $connector;
+        $this->userRepository = $userManager;
         $this->connector->connect();
     }
 
     public function insert(string $token, int $userId): bool {
         $sql       = "insert into token (token, user_id,create_ts,active) values (:token, :user_id,:create_ts,:active);";
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) return false;
 
         $createTs = (new DateTime())->getTimestamp();
         $active   = 1;
@@ -72,8 +73,6 @@ class TokenRepository {
     public function deactivate(string $token): bool {
         $sql       = "update `token` set `active` = :active where `token` = :token;";
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) return false;
 
         $active = 0;
         $statement->bindParam(":active", $active);
@@ -103,7 +102,7 @@ class TokenRepository {
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $id          = $row[0];
             $tokenString = $row[1];
-            $user        = $this->userManager->getUserById((int) $row[2]);
+            $user        = $this->userRepository->getUserById((int) $row[2]);
             $createTs    = $row[3];
             $active      = $row[4];
 
@@ -131,7 +130,7 @@ class TokenRepository {
                   where active = :active
                   and create_ts < :create_ts;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
+
         $active     = 1;
         $subtracted = DateTimeUtil::subtractHours($this->minHours);
         $subtracted = $subtracted->getTimestamp();

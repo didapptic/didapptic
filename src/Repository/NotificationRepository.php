@@ -114,8 +114,7 @@ class NotificationRepository {
             $executedSecond = "true";
         }
 
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
+        $statement = $this->connector->prepare($sql);
 
         $statement->bindParam("executedFirst", $executedFirst);
         $statement->bindParam("executedSecond", $executedSecond);
@@ -151,10 +150,15 @@ class NotificationRepository {
             $notificationType = $this->getType(
                 $notificationTypeId
             );
+            /** @phpstan-ignore-next-line */
             $queueType->setId($notificationType->getId());
+            /** @phpstan-ignore-next-line */
             $queueType->setName($notificationType->getName());
+            /** @phpstan-ignore-next-line */
             $queueType->setMandatory($notificationType->isMandatory());
+            /** @phpstan-ignore-next-line */
             $queueType->setCreateTs($notificationType->getCreateTs());
+            /** @phpstan-ignore-next-line */
             $queueType->setPermission($notificationType->getPermission());
             $notification->setType($queueType);
 
@@ -181,8 +185,7 @@ class NotificationRepository {
                     where nt.`id` = :id
 ;";
 
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
+        $statement = $this->connector->prepare($sql);
 
         $statement->bindParam("id", $id);
 
@@ -227,8 +230,7 @@ class NotificationRepository {
                     where ntu.`notification_type_id` = :n_id
 ;";
 
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
+        $statement = $this->connector->prepare($sql);
 
         $statement->bindParam("n_id", $typeId);
 
@@ -253,7 +255,7 @@ class NotificationRepository {
         return $list;
     }
 
-    public function getAll(): ?ArrayList {
+    public function getAll(): ArrayList {
         $list = new ArrayList();
 
         $sql = "select 
@@ -262,14 +264,13 @@ class NotificationRepository {
                         , n.`create_ts` 
                 from `notification` n;";
 
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
+        $statement = $this->connector->prepare($sql);
 
         $statement->execute();
-        if ($statement->rowCount() === 0) return null;
+        if ($statement->rowCount() === 0) return $list;
 
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
-            $id       = $row[0];
+            $id       = (int) $row[0];
             $name     = $row[1];
             $createTs = $row[2];
 
@@ -281,6 +282,7 @@ class NotificationRepository {
             $dateTime = new DateTime();
             $dateTime->setTimestamp((int) $createTs);
             $notification->setCreateTs($dateTime);
+            /** @phpstan-ignore-next-line */
             $notification->setTypes($types);
 
             $list->add($notification);
@@ -289,7 +291,7 @@ class NotificationRepository {
         return $list;
     }
 
-    private function getTypesPerNotification($id): ?ITypeList {
+    private function getTypesPerNotification(int $id): ?ITypeList {
         $list = new TypeList();
 
         $sql = "select 
@@ -302,8 +304,7 @@ class NotificationRepository {
                     where nt.`notification_id` = :n_id
 ;";
 
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
+        $statement = $this->connector->prepare($sql);
 
         $statement->bindParam("n_id", $id);
 
@@ -358,9 +359,6 @@ class NotificationRepository {
                                     , :create_ts
                                     )";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
 
         $content        = $notification->getContent();
         $createTs       = $notification->getCreateTs();
@@ -369,12 +367,12 @@ class NotificationRepository {
         $executed       = $notification->isExecuted() ? 'true' : 'false';
         $subject        = $notification->getSubject();
         $notificationId = $notification->getId();
-        /** @var ITypeList|ArrayList $types */
+        /** @var ArrayList $types */
         $types = $notification->getTypes();
         /** @var IType $type */
         $type             = $types->get(0);
         $notificationType = $type->getId();
-        /** @var IReceiverList|ArrayList $receiverList */
+        /** @var ArrayList $receiverList */
         $receiverList = $notification->getReceiverList();
         /** @var IReceiver $receiver */
         $receiver = $receiverList->get(0);
@@ -407,7 +405,7 @@ class NotificationRepository {
         }
     }
 
-    private function updateQueueEntry(IQueueNotification $notification) {
+    private function updateQueueEntry(IQueueNotification $notification): bool {
 
         $sql       = "UPDATE `notification_queue` SET `executed` = :executed WHERE id = :id;";
         $statement = $this->connector->prepare($sql);

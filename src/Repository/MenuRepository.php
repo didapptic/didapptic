@@ -41,7 +41,8 @@ use PDO;
  */
 class MenuRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -65,9 +66,6 @@ class MenuRepository {
         $visible   = 1;
         $statement->bindParam(":visible", $visible);
 
-        if (null === $statement) {
-            return $array;
-        }
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return $array;
@@ -108,10 +106,6 @@ class MenuRepository {
         ";
 
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) {
-            return false;
-        }
 
         $name         = $menu->getName();
         $href         = $menu->getHref();

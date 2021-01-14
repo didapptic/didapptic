@@ -40,9 +40,12 @@ use doganoo\PHPAlgorithms\Datastructure\Lists\ArrayLists\ArrayList;
  */
 abstract class AbstractAppRequest {
 
-    private $appList      = null;
-    private $resultList   = null;
-    private $inactiveApps = null;
+    /** @var ArrayList */
+    private $appList;
+    /** @var ArrayList */
+    private $resultList;
+    /** @var ArrayList */
+    private $inactiveApps;
 
     public function __construct() {
         $this->appList      = new ArrayList();
@@ -60,7 +63,7 @@ abstract class AbstractAppRequest {
         return $this->resultList;
     }
 
-    public function clear() {
+    public function clear(): void {
         $this->appList->clear();
         $this->resultList->clear();
         $this->inactiveApps->clear();

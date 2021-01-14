@@ -38,20 +38,19 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class RecommendationRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
     }
 
-    public function getRecommendations() {
+    public function getRecommendations(): array {
         $array     = [];
         $sql       = "select id, recommendation from recommendation order by recommendation asc;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
+
         $statement->execute();
         while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
             $id   = $row[0];

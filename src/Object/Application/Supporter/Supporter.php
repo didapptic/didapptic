@@ -36,8 +36,11 @@ namespace Didapptic\Object\Application\Supporter;
  */
 class Supporter {
 
+    /** @var string */
     private $name;
+    /** @var string */
     private $url;
+    /** @var string */
     private $slogan;
 
     public function __construct(

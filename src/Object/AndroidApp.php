@@ -39,13 +39,19 @@ use JsonSerializable;
  */
 class AndroidApp extends App implements JsonSerializable {
 
+    /** @var string */
     private $privacyPolicy = "";
-    private $publisherId   = "";
-
-    private $available         = true;
-    private $permissions       = [];
+    /** @var string */
+    private $publisherId = "";
+    /** @var bool */
+    private $available = true;
+    /** @var array */
+    private $permissions = [];
+    /** @var string */
     private $developerEmail;
-    private $related           = [];
+    /** @var array|null */
+    private $related = [];
+    /** @var int */
     private $numberOfDownloads = 0;
 
     public function jsonSerialize() {

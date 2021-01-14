@@ -43,7 +43,6 @@ use Didapptic\Service\User\Permission\PermissionService;
 use doganoo\IN\Notification\Notification;
 use doganoo\IN\Notification\Type\Type;
 use doganoo\INotify\Notification\Type\IType;
-use doganoo\PHPUtil\Log\FileLogger;
 use function array_merge;
 
 /**
@@ -54,6 +53,7 @@ use function array_merge;
  */
 class NewAppSubmit extends AbstractSubmit {
 
+    /** @var array[] */
     private $parameters = [
         "google" => [
             "id"            => null
@@ -64,7 +64,8 @@ class NewAppSubmit extends AbstractSubmit {
             , "presentable" => false
         ]
     ];
-    private $executed   = false;
+    /** @var bool */
+    private $executed = false;
     /** @var NotificationService */
     private $notificationService;
     /** @var AppSubmitService */
@@ -190,7 +191,7 @@ class NewAppSubmit extends AbstractSubmit {
 
     }
 
-    private function getAppIds() {
+    private function getAppIds(): string {
         $name = [];
         if (isset($this->parameters["ios"]["id"])) {
             $name[] = $this->parameters["ios"]["id"];
@@ -198,9 +199,7 @@ class NewAppSubmit extends AbstractSubmit {
         if (isset($this->parameters["google"]["id"])) {
             $name[] = $this->parameters["google"]["id"];
         }
-
-        $names = implode(", ", $name);
-        return $names;
+        return implode(", ", $name);
     }
 
 }

@@ -49,13 +49,13 @@ class URLRepository {
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
+        /** @phpstan-ignore-next-line */
         $this->connector->getConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     public function exists(int $appId, string $name): bool {
         $sql       = "SELECT `id` FROM `url` WHERE `app_id` = :app_id AND `name` = :name;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam(":app_id", $appId);
         $statement->bindParam(":name", $name);
         $statement->execute();
@@ -70,7 +70,6 @@ class URLRepository {
     ): bool {
         $sql       = "UPDATE `url` SET `urls` = :urls, `create_ts` = :create_ts WHERE `app_id` = :app_id AND `name` = :name;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam(":urls", $urls);
         $statement->bindParam(":create_ts", $createTs);
         $statement->bindParam(":app_id", $appId);
@@ -98,7 +97,6 @@ class URLRepository {
                             , :create_ts
                         );";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
 
         $statement->bindParam(":appId", $appId);
         $statement->bindParam(":urls", $urls);
@@ -117,7 +115,6 @@ class URLRepository {
     private function getURLPerApp(int $appId, string $name): ?string {
         $sql       = "SELECT `urls` from `url` WHERE `app_id` = :app_id AND `name` = :name;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
 
         $statement->bindParam("app_id", $appId);
         $statement->bindParam("name", $name);
@@ -133,9 +130,6 @@ class URLRepository {
     public function getScreenshotURLs(int $appId): array {
         $sql       = "SELECT `urls` FROM `url` WHERE `app_id` = :app_id AND `name` IN(:name, :ipad_name);";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return [];
-        }
         $name     = URLRepository::TYPE_SCREENSHOTS;
         $iPadName = URLRepository::NAME_IPAD;
 

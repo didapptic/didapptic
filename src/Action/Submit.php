@@ -66,71 +66,71 @@ class Submit extends Action {
 
     private const PATTERN_CONFIGURATION = [
         // HTTP DELETE
-        "/v1/material/file/{id}/"                             => [
+        "/v1/material/file/{id}/"                    => [
             "name"         => DeleteMaterialSubmit::class
             , "permission" => Permission::MENU_DELETE_MATERIAL
         ]
-        , "/v1/file/{id}/{materialId}/"                       => [
+        , "/v1/file/{id}/{materialId}/"              => [
             "name"         => DeleteFileSubmit::class
             , "permission" => Permission::MENU_DELETE_FILE
         ]
-        , "/v1/applications/delete/{appId}/"                  => [
+        , "/v1/applications/delete/{appId}/"         => [
             "name"         => DeleteAppSubmit::class
             , "permission" => Permission::APP_DELETION
         ]
 
         // HTTP PUT
-        , "/menu/new-user/new/submit/"                        => [
+        , "/menu/new-user/new/submit/"               => [
             "name"         => NewUserSubmit::class
             , "permission" => Permission::SUBMIT_NEW_USER
         ]
-        , "/menu/password-lost/submit/"                       => [
+        , "/menu/password-lost/submit/"              => [
             "name"         => PasswordLostSubmit::class
             , "permission" => Permission::MENU_PASSWORD_LOST
         ]
-        , "/v1/menu/contact/new/submit/"                      => [
+        , "/v1/menu/contact/new/submit/"             => [
             "name"         => NewContactSubmit::class
             , "permission" => Permission::MENU_CONTACT
         ]
-        , "/menu/login/submit/"                               => [
+        , "/menu/login/submit/"                      => [
             "name"         => LoginSubmit::class
             , "permission" => Permission::DEFAULT_PERMISSION
         ]
-        , "/menu/profile/add/"                                => [
+        , "/menu/profile/add/"                       => [
             "name"         => UpdateUserSubmit::class
             , "permission" => Permission::DEFAULT_PERMISSION
         ]
 
         // HTTP POST
-        , "/v1/material/files/upload/"                        => [
+        , "/v1/material/files/upload/"               => [
             "name"         => NewMaterialSubmit::class
             , "permission" => Permission::MENU_NEW_MATERIAL
         ]
-        , "/v1/material/password/check/"                      => [
+        , "/v1/material/password/check/"             => [
             "name"         => MaterialPasswordCheckSubmit::class
             , "permission" => Permission::DEFAULT_PERMISSION
         ]
-        , "/menu/update-app/update/submit/"                   => [
+        , "/menu/update-app/update/submit/"          => [
             "name"         => UpdateAppSubmit::class
             , "permission" => Permission::SUBMIT_NEW_APPLICATION
         ]
-        , "/password/update/"                                 => [
+        , "/password/update/"                        => [
             "name"         => PasswordUpdateSubmit::class
             , "permission" => Permission::DEFAULT_PERMISSION //TODO replace with user == owner if simple-rbac supports it
         ]
-        , "/v1/subject/new/"                                  => [
+        , "/v1/subject/new/"                         => [
             "name"         => AddSubjectSubmit::class
             , "permission" => Permission::SUBMIT_NEW_SUBJECT
         ]
-        , "/v1/category/new/"                                 => [
+        , "/v1/category/new/"                        => [
             "name"         => AddCategorySubmit::class
             , "permission" => Permission::SUBMIT_NEW_CATEGORY
         ]
-        , "/v1/tag/new/"                                      => [
+        , "/v1/tag/new/"                             => [
             "name"         => AddTagSubmit::class
             , "permission" => Permission::SUBMIT_NEW_TAG
         ]
-        , "/menu/new-app/new/submit/"                         => [
+        , "/menu/new-app/new/submit/"                => [
             "name"         => NewAppSubmit::class
             , "permission" => Permission::SUBMIT_NEW_APPLICATION
         ]
@@ -146,7 +146,7 @@ class Submit extends Action {
         Request $request
         , Response $response
         , array $arguments
-    ) {
+    ): Response {
 
         /** @var PermissionHandler $permissionHandler */
         $permissionHandler = Didapptic::getServer()->query(PermissionHandler::class);
@@ -171,7 +171,7 @@ class Submit extends Action {
         $submit = $this->createObject($name);
         $submit->setArguments(
             array_merge(
-                $request->getParsedBody() ?? []
+                (array) $request->getParsedBody() ?? []
                 , $arguments
                 , [
                     "files" => $_FILES
@@ -180,7 +180,7 @@ class Submit extends Action {
         $ran = $submit->run();
 
         $response->getBody()->write(
-            json_encode([
+            (string) json_encode([
                 FrontendResponse::FIELD_NAME_RESPONSE_CODE =>
                     true === $ran
                         ? FrontendResponse::OK

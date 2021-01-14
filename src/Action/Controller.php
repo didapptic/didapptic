@@ -220,7 +220,7 @@ class Controller extends Action {
         $controller->setArguments(
             array_merge(
                 $arguments ?? []
-                , $request->getParsedBody() ?? []
+                , (array)$request->getParsedBody() ?? []
                 , $_GET
             )
         );

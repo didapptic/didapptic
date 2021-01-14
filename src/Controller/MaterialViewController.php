@@ -66,8 +66,7 @@ class MaterialViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::MATERIAL_VIEW
+            View::MATERIAL_VIEW
         );
 
         parent::registerCss(

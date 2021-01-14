@@ -61,10 +61,7 @@ class AboutViewController extends AbstractController {
     protected function create(): ?string {
 
         $supporters = Didapptic::getSupporters();
-        $template   = parent::loadTemplate(
-            parent::getTemplatePath()
-            , View::ABOUT_VIEW
-        );
+        $template   = parent::loadTemplate(View::ABOUT_VIEW);
 
         /** @var Supporter $mainSupporter */
         $mainSupporter = $supporters->get("main");

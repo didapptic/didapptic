@@ -47,7 +47,9 @@ class CommentRepository {
     public const DIDACTIC_REMARK  = "didactic_remark";
     public const DIDACTIC_COMMENT = "didactic_comment";
     public const PRIVACY_COMMENT  = "privacy_comment";
-    private $connector = null;
+
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -66,9 +68,7 @@ class CommentRepository {
         }
         $sql       = "insert into comment (app_id, type, text, create_ts) VALUES (:app_id, :type, :text ,:create_ts)";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $createTs = DateTimeUtil::getUnixTimestamp();
         $comment  = htmlentities($comment);
         $statement->bindParam(":app_id", $appId);
@@ -96,9 +96,7 @@ class CommentRepository {
         }
         $sql       = "UPDATE `comment` SET `text` = :text WHERE `app_id` = :app_id AND `type` = :type;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $statement->bindParam(":text", $comment);
         $statement->bindParam(":app_id", $appId);
         $statement->bindParam(":type", $type);

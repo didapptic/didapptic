@@ -115,6 +115,7 @@ class AppRequestService {
             $app->setDeveloper($artistName);
             $app->setSupportedDevices($supportedDevices);
             $app->setPriceCurrency($currency);
+            /** @phpstan-ignore-next-line */
             $app->setGenres($genres);
             $app->setDeveloperWebsite($sellerUrl);
             $dateTime = null;
@@ -130,6 +131,7 @@ class AppRequestService {
             $app->setResultsQuality((float) 0);
             $app = $this->fromIOS($app, $result);
         }
+        /** @phpstan-ignore-next-line */
         return $app;
     }
 
@@ -151,14 +153,11 @@ class AppRequestService {
         return "";
     }
 
-    private function isEmptyString($value): bool {
-        if (null === $value || trim((string) $value) === "") {
-            return true;
-        }
-        return false;
+    private function isEmptyString(?string $value): bool {
+        return null === $value || trim((string) $value) === "";
     }
 
-    public function readArrayFloatField(array $array, $name): float {
+    public function readArrayFloatField(array $array, ?string $name): float {
         if (isset($array[$name])) {
             if (false === $this->isEmptyString($array[$name])) {
                 return floatval($array[$name]);
@@ -167,7 +166,7 @@ class AppRequestService {
         return 0.0;
     }
 
-    private function fromIOS(App $app, $array) {
+    private function fromIOS(App $app, array $array): App {
         $iconURL            = $this->readStringArrayField($array, "artworkUrl512");
         $screenshotUrls     = $this->readArrayField($array, "screenshotUrls");
         $ipadScreenshotUrls = $this->readArrayField($array, "ipadScreenshotUrls");
@@ -181,7 +180,7 @@ class AppRequestService {
         return $app;
     }
 
-    public function getValidatedList(ArrayList $list) {
+    public function getValidatedList(ArrayList $list): ArrayList {
         /** @var App $app */
         foreach ($list as $key => $app) {
             $valid = $this->validate($app);

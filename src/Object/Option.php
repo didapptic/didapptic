@@ -28,7 +28,7 @@ declare(strict_types=1);
 
 namespace Didapptic\Object;
 
-use DateTime;
+use DateTimeInterface;
 
 /**
  * Class Option
@@ -38,52 +38,35 @@ use DateTime;
  */
 class Option {
 
-    private $name     = null;
-    private $value    = null;
-    private $createTs = null;
+    /** @var string */
+    private $name;
+    /** @var string */
+    private $value;
+    /** @var DateTimeInterface */
+    private $createTs;
 
-    /**
-     * @return null
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void {
         $this->name = $name;
     }
 
-    /**
-     * @return string null
-     */
-    public function getValue(): ?string {
+    public function getValue(): string {
         return $this->value;
     }
 
-    /**
-     * @param string $value
-     */
-    public function setValue(?string $value): void {
+    public function setValue(string $value): void {
         $this->value = $value;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getCreateTs(): DateTime {
+    public function getCreateTs(): DateTimeInterface {
         return $this->createTs;
     }
 
-    /**
-     * @param int $createTs
-     */
-    public function setCreateTs(int $createTs): void {
-        $dateTime = new DateTime();
-        $dateTime->setTimestamp($createTs);
-        $this->createTs = $dateTime;
+    public function setCreateTs(DateTimeInterface $createTs): void {
+        $this->createTs = $createTs;
     }
 
 }

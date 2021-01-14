@@ -46,6 +46,7 @@ use doganoo\INotify\Service\Mapper\IMapper;
  */
 class Mapper implements IMapper {
 
+    /** @var string[] */
     private $config = [
         INotificationType::MAIL         => MailApplicant::class
         , INotificationType::PLAIN_MAIL => PlainMailApplicant::class

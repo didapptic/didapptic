@@ -28,13 +28,13 @@ declare(strict_types=1);
 
 namespace Didapptic\Controller;
 
-use DateTime;
+use DateTimeInterface;
 use Didapptic\Didapptic;
 use Didapptic\Object\App;
 use Didapptic\Object\Environment;
 use Didapptic\Object\Permission;
 use Didapptic\Repository\App\AppRepository;
-use doganoo\PHPUtil\Log\FileLogger;
+use Didapptic\Repository\PrivacyRepository;
 use function html_entity_decode;
 use function nl2br;
 
@@ -52,18 +52,23 @@ class AppDetailViewController extends AbstractController {
     private $appManager;
     /** @var Environment */
     private $environment;
+    /** @var PrivacyRepository */
+    private $privacyRepository;
 
     public function __construct(
         Environment $environment
         , AppRepository $appManager
+        , PrivacyRepository $privacyRepository
     ) {
         parent::__construct("");
-        $this->environment = $environment;
-        $this->appManager  = $appManager;
+        $this->environment       = $environment;
+        $this->appManager        = $appManager;
+        $this->privacyRepository = $privacyRepository;
     }
 
     protected function onCreate(): void {
-        $appId     = $this->getArgument("appId");
+        $appId = $this->getArgument("appId");
+        /** @var @phpstan-ignore-next-line */
         $this->app = $this->appManager->getAppByStoreId($appId);
     }
 
@@ -73,21 +78,30 @@ class AppDetailViewController extends AbstractController {
     protected function create(): ?string {
         $appEditPermitted = $this->hasPermission(Permission::APP_EDIT);
 
-        $lastUserUpdatTs = $this->getDateDescription($this->app->getLastUserUpdateTs());
-        $lastUpdated     = $this->getDateDescription($this->app->getLastUpdated());
-        $insertDate      = $this->getDateDescription($this->app->getCreateTs());
-        $timeArray       = $this->getTimestampDescriptions();
-        $appStoreIconUrl = $this->getAppStoreIcon($this->app->getOperatingSystem());
+        $lastUserUpdatTs    = $this->getDateDescription($this->app->getLastUserUpdateTs());
+        $lastUpdated        = $this->getDateDescription($this->app->getLastUpdated());
+        $insertDate         = $this->getDateDescription($this->app->getCreateTs());
+        $timeArray          = $this->getTimestampDescriptions();
+        $appStoreIconUrl    = $this->getAppStoreIcon($this->app->getOperatingSystem());
+        $privacyDescription = 'Keine Angaben';
 
         $minimumOsLabel = "Erfordert mindestens iOS-Version:";
         if ($this->app->getOperatingSystem() === App::ANDROID) {
             $minimumOsLabel = "Erfordert mindestens Android-Version:";
         }
 
+        $privacyArray = $this->privacyRepository->getPrivacy();
+
+        foreach ($privacyArray as $id => $privacyData) {
+            if ((int) $id === (int) $this->app->getPrivacy()) {
+                $privacyDescription = $privacyData;
+            }
+        }
+
         $didacticComment = nl2br($this->app->getDidacticComment());
         $description     = nl2br($this->app->getDescription());
         $remark          = nl2br($this->app->getDidacticRemark());
-        $privacy         = nl2br((string) $this->app->getPrivacy());
+        $privacy         = nl2br($privacyDescription);
         $privacyComment  = nl2br($this->app->getPrivacyComment());
 
         $didacticComment = html_entity_decode($didacticComment);
@@ -96,7 +110,7 @@ class AppDetailViewController extends AbstractController {
         $privacy         = html_entity_decode($privacy);
         $privacyComment  = html_entity_decode($privacyComment);
 
-        return json_encode([
+        return (string) json_encode([
             // values
             "app_store_icon_url"    => $appStoreIconUrl
             , "insertDate"          => $insertDate
@@ -127,21 +141,21 @@ class AppDetailViewController extends AbstractController {
             , "unavailable"         => null === $this->app->getReleaseDate()
             , "developer"           => $this->app->getDeveloper()
             , "storeUrl"            => $this->app->getStoreUrl()
-            , "downLoadApp"         => $this->app->getName() . " herunterladen"
+            , "downloadApp"         => $this->app->getName() . " herunterladen"
         ]);
     }
 
     /**
-     * @param DateTime|null $dateTime
+     * @param DateTimeInterface|null $dateTime
      *
      * @return string|null
      */
-    private function getDateDescription(?DateTime $dateTime): ?string {
+    private function getDateDescription(?DateTimeInterface $dateTime): ?string {
         if (null === $dateTime) return null;
-        if (0 === $dateTime->getTimestamp()) return null;
+        if ($dateTime->getTimestamp() < 10) return null;
 
         $pattern = $this->environment->getGermanDatePattern();
-        return $dateTime->format($pattern);
+        return $dateTime->format((string) $pattern);
     }
 
     /**
@@ -153,8 +167,6 @@ class AppDetailViewController extends AbstractController {
         $insertDate       = $this->getDateDescription($this->app->getCreateTs());
         $lastUserUpdateTs = $this->getDateDescription($this->app->getLastUserUpdateTs());
         $lastUpdated      = $this->getDateDescription($this->app->getLastUpdated());
-
-        FileLogger::debug(json_encode($insertDate));
 
         if (null !== $insertDate) {
             $arr["Datenbankeintrag"] = $insertDate;

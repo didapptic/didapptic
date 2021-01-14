@@ -43,10 +43,15 @@ class CollationAndCharsetJob extends Task {
 
     public const DEFAULT_COLLATION     = "utf8mb4_unicode_ci";
     public const DEFAULT_CHARACTER_SET = "utf8mb4";
-    private $sysProperties   = null;
-    private $databaseManager = null;
-    private $schema          = null;
-    private $tables          = null;
+
+    /** @var Environment */
+    private $environment;
+    /** @var DatabaseRepository */
+    private $databaseRepository;
+    /** @var array */
+    private $schema;
+    /** @var array */
+    private $tables;
 
     /**
      * CollationAndCharsetJob constructor.
@@ -58,18 +63,18 @@ class CollationAndCharsetJob extends Task {
         Environment $properties
         , DatabaseRepository $databaseManager
     ) {
-        $this->sysProperties   = $properties;
-        $this->databaseManager = $databaseManager;
-        $this->schema          = [];
-        $this->tables          = [];
+        $this->environment        = $properties;
+        $this->databaseRepository = $databaseManager;
+        $this->schema             = [];
+        $this->tables             = [];
     }
 
-    protected function preRun() {
-
-        $dbInfo = $this->sysProperties->getDatabaseInfo();
+    protected function preRun(): void {
+        /** @phpstan-ignore-next-line */
+        $dbInfo = $this->environment->getDatabaseInfo();
         $name   = $dbInfo["db_name"];
-        $schema = $this->databaseManager->getSchemaInformation($name);
-        $tables = $this->databaseManager->getTableInformation($name);
+        $schema = $this->databaseRepository->getSchemaInformation($name);
+        $tables = $this->databaseRepository->getTableInformation($name);
 
         if ($schema["collation"] === CollationAndCharsetJob::DEFAULT_COLLATION) unset($schema["collation"]);
         if ($schema["character_set"] === CollationAndCharsetJob::DEFAULT_CHARACTER_SET) unset($schema["character_set"]);
@@ -89,11 +94,12 @@ class CollationAndCharsetJob extends Task {
     }
 
     protected function action(): bool {
-        $dbInfo = $this->sysProperties->getDatabaseInfo();
+        /** @phpstan-ignore-next-line */
+        $dbInfo = $this->environment->getDatabaseInfo();
         $name   = $dbInfo["db_name"];
 
         if (0 < count($this->schema)) {
-            $this->databaseManager->updateSchemaInformation(
+            $this->databaseRepository->updateSchemaInformation(
                 $name
                 , CollationAndCharsetJob::DEFAULT_CHARACTER_SET
                 , CollationAndCharsetJob::DEFAULT_COLLATION);
@@ -101,13 +107,13 @@ class CollationAndCharsetJob extends Task {
 
         if (0 < count($this->tables)) {
             foreach ($this->tables as $key => $table) {
-                $this->databaseManager->updateTableInformation($key, CollationAndCharsetJob::DEFAULT_CHARACTER_SET, CollationAndCharsetJob::DEFAULT_COLLATION);
+                $this->databaseRepository->updateTableInformation($key, CollationAndCharsetJob::DEFAULT_CHARACTER_SET, CollationAndCharsetJob::DEFAULT_COLLATION);
             }
         }
 
-        $tables = $this->databaseManager->getTableInformation($name);
+        $tables = $this->databaseRepository->getTableInformation($name);
         foreach ($tables as $key => $value) {
-            $this->databaseManager->updateColumns($key);
+            $this->databaseRepository->updateColumns($key);
         }
 
         return true;

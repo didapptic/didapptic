@@ -52,8 +52,10 @@ use doganoo\INotify\Notification\Type\IType;
  */
 class DeleteAppSubmit extends AbstractSubmit {
 
-    private $arguments = null;
-    private $deleted   = false;
+    /** @var array */
+    private $arguments;
+    /** @var bool */
+    private $deleted = false;
     /** @var App */
     private $app;
     /** @var AppRepository */
@@ -91,8 +93,10 @@ class DeleteAppSubmit extends AbstractSubmit {
         $appId           = $this->arguments["appId"] ?? null;
         if (null === $appId) return false;
         if (false === is_numeric($appId)) return false;
-        $this->app = $this->toApp((int) $appId);
-        return null !== $this->app;
+        $app = $this->toApp((int) $appId);
+        if (null === $app) return false;
+        $this->app = $app;
+        return true;
     }
 
     private function toApp(int $appId): ?App {
@@ -154,6 +158,7 @@ class DeleteAppSubmit extends AbstractSubmit {
         $notification->setCreateTs(new DateTime());
         $notification->addReceiver(
             $this->receiverService->toReceiver(
+            /** @phpstan-ignore-next-line */
                 $this->userManager->getUserById(
                     $this->app->getAuthor()
                 )

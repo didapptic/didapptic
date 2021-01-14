@@ -43,8 +43,10 @@ use Twig\Loader\FilesystemLoader;
 class TemplateRenderer {
 
     public const APP_DELETED = "app_deleted";
-    private $templates = null;
-    private $isDev     = null;
+    /** @var array */
+    private $templates;
+    /** @var bool */
+    private $isDev;
 
     public function __construct(Environment $environment) {
         $this->templates = [];

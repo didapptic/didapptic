@@ -43,6 +43,7 @@ use doganoo\SimpleRBAC\Handler\PermissionHandler;
 use GuzzleHttp\Client;
 use Twig\Environment as TwigEnv;
 use Twig\Loader\FilesystemLoader;
+use Twig\TemplateWrapper;
 use Twig\TwigFilter;
 use function array_merge;
 use function in_array;
@@ -69,9 +70,9 @@ abstract class AbstractController {
     private $permissionHandler;
     /** @var PermissionService */
     private $permissionService;
-    /** @var null|UserService */
+    /** @var UserService */
     private $userService;
-    /** @var null|MenuService $menuService */
+    /** @var MenuService $menuService */
     private $menuService;
     /** @var array */
     private $arguments;
@@ -122,10 +123,10 @@ abstract class AbstractController {
     /**
      * @param string $name
      */
-    protected function registerCss(string $name) {
+    protected function registerCss(string $name): void {
         $baseURL = Didapptic::getBaseURL(false);
         $path    = $baseURL . "dist/css/$name.css";
-        if (!in_array($path, $this->css)) {
+        if (!in_array($path, (array) $this->css)) {
             $this->css[] = $path;
         }
     }
@@ -189,7 +190,7 @@ abstract class AbstractController {
         );
 
         $headHtml    = $this->loadHead($contentOnly);
-        $template    = $this->loadTemplate($this->getTemplatePath(), View::HEADER_VIEW);
+        $template    = $this->loadTemplate(View::HEADER_VIEW);
         $debug       = $this->properties->isDebug();
         $production  = $this->properties->isProduction();
         $description = $this->environment->getEnvironmentDescription();
@@ -216,15 +217,12 @@ abstract class AbstractController {
         $self      = Didapptic::getBaseURL(true);
         $pageTitle = Didapptic::APP_NAME;
 
-        $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::HEAD
-        );
+        $template = $this->loadTemplate(View::HEAD);
 
         $css        = [];
         $javascript = $this->javaScript;
         if (!$contentOnly) {
-            $css = array_merge($css, $this->css);
+            $css = array_merge($css, (array) $this->css);
         }
 
         if ("" !== $this->pageTitle) {
@@ -240,7 +238,7 @@ abstract class AbstractController {
         ]);
     }
 
-    protected final function loadTemplate($path, $name) {
+    protected final function loadTemplate(string $name): TemplateWrapper {
         $loader = new FilesystemLoader(
             Didapptic::getServer()->getTemplatePath()
         );
@@ -257,8 +255,8 @@ abstract class AbstractController {
         return $this->templatePath;
     }
 
-    private function loadFooter() {
-        $template = $this->loadTemplate($this->getTemplatePath(), "footer.twig");
+    private function loadFooter(): string {
+        $template = $this->loadTemplate("footer.twig");
         $self     = Didapptic::getBaseURL(true);
         return $template->render([
             "appName"                  => Didapptic::APP_NAME
@@ -298,7 +296,7 @@ abstract class AbstractController {
     protected function registerJavaScript(string $name): void {
         $baseURL = Didapptic::getBaseURL(false);
         $path    = $baseURL . "dist/js/$name.bundle.js";
-        if (!in_array($path, $this->javaScript)) {
+        if (!in_array($path, (array) $this->javaScript)) {
             $this->javaScript[] = $path;
         }
     }

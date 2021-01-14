@@ -137,7 +137,8 @@ class UpdateAppService {
         $iosStoreUrl    = isset($parsedBody["ios-store-url"]) ? $parsedBody["ios-store-url"] : "";
 
         $parts = parse_url($googleStoreUrl);
-        $q_    = isset($parts["query"]) ? $parts["query"] : "";
+        /** @phpstan-ignore-next-line */
+        $q_ = isset($parts["query"]) ? $parts["query"] : "";
 
         parse_str($q_, $query);
         if (isset($query["id"]) && "" !== $query["id"]) {

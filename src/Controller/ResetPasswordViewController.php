@@ -46,6 +46,7 @@ class ResetPasswordViewController extends AbstractController {
 
     /** @var Token */
     private $token;
+    /** @var string */
     private $templateName = View::RESET_PASSWORD_VIEW_ERROR;
     /** @var TokenRepository */
     private $tokenManager;
@@ -68,8 +69,9 @@ class ResetPasswordViewController extends AbstractController {
     }
 
     protected function onCreate(): void {
+        /** @var @phpstan-ignore-next-line token */
         $this->token = $this->tokenManager->getToken(
-            $this->getArgument("token")
+            (string) $this->getArgument("token")
         );
         $isOutdated  = $this->tokenService->isOutdated($this->token);
 
@@ -85,12 +87,11 @@ class ResetPasswordViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = parent::loadTemplate(
-            parent::getTemplatePath()
-            , $this->templateName
+             $this->templateName
         );
 
         $userId = null;
-        if (null !== $this->token) {
+        if (null !== $this->token && null !== $this->token->getUser()) {
             $userId = $this->token->getUser()->getId();
         }
 

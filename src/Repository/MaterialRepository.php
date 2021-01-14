@@ -41,15 +41,17 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class MaterialRepository {
 
-    private $connector   = null;
-    private $fileManager = null;
+    /** @var PDOConnector */
+    private $connector;
+    /** @var FileRepository */
+    private $fileRepository;
 
     public function __construct(
         PDOConnector $connector
         , FileRepository $fileManager
     ) {
-        $this->connector   = $connector;
-        $this->fileManager = $fileManager;
+        $this->connector      = $connector;
+        $this->fileRepository = $fileManager;
         $this->connector->connect();
     }
 
@@ -70,9 +72,6 @@ class MaterialRepository {
                                     , :password
                                     )";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return null;
-        }
 
         $description = $material->getDescription();
         $date        = $material->getDate();
@@ -97,14 +96,19 @@ class MaterialRepository {
 
         /** @var File $file */
         foreach ($material->getFiles() as $file) {
-            $inserted = $this->fileManager->insert($file);
+            $inserted = $this->fileRepository->insert($file);
             if (false === $inserted) {
                 FileLogger::debug("could not insert {$file->getName()}");
                 continue;
             }
 
+            if (null === $file->getId()) {
+                FileLogger::error("no file id found !!");
+                continue;
+            }
+
             $this->connectToFile(
-                $material->getId()
+                (int) $material->getId()
                 , $file->getId()
                 , $material->getCreatorId()
                 , $material->getCreateTs()
@@ -127,9 +131,6 @@ class MaterialRepository {
                                     , :create_ts
                                     )";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
 
         $statement->bindParam(":m_id", $materialId);
         $statement->bindParam(":f_id", $fileId);
@@ -142,7 +143,7 @@ class MaterialRepository {
         return true;
     }
 
-    public function getAll() {
+    public function getAll(): array {
         $list = [];
         $sql  = "select
                       m.id
@@ -156,9 +157,7 @@ class MaterialRepository {
                 order by m.create_ts desc;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $list;
-        }
+
         $statement->execute();
         while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
             $id          = $row[0];
@@ -181,7 +180,13 @@ class MaterialRepository {
             $mfList = $this->getFilesForMaterial((int) $id);
 
             foreach ($mfList as $l) {
-                $files = $this->fileManager->getById((int) $l["f_id"]);
+                $files = $this->fileRepository->getById((int) $l["f_id"]);
+
+                if ($files === null) {
+                    FileLogger::error("no file found !!!!!! Material");
+                    continue;
+                }
+
                 $material->addFile($files);
             }
             $list[] = $material;
@@ -202,9 +207,7 @@ class MaterialRepository {
                 order by mf.`create_ts` desc;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $list;
-        }
+
         $statement->bindParam("m_id", $materialId);
         $statement->execute();
         while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
@@ -240,9 +243,6 @@ class MaterialRepository {
 
         $statement = $this->connector->prepare($sql);
 
-        if (null === $statement) {
-            return null;
-        }
         $statement->bindParam("id", $materialId);
         $statement->execute();
 
@@ -271,7 +271,13 @@ class MaterialRepository {
             $mfList = $this->getFilesForMaterial((int) $id);
 
             foreach ($mfList as $l) {
-                $files = $this->fileManager->getById((int) $l["f_id"]);
+                $files = $this->fileRepository->getById((int) $l["f_id"]);
+
+                if ($files === null) {
+                    FileLogger::error("no file found !!!!!! Material");
+                    continue;
+                }
+
                 $material->addFile($files);
             }
         }
@@ -282,9 +288,6 @@ class MaterialRepository {
     public function disconnectFromFile(Material $material, File $file): bool {
         $sql       = "delete from material_file where m_id = :id and f_id = :f_id;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
 
         $materialId = $material->getId();
         $fileId     = $file->getId();
@@ -295,34 +298,28 @@ class MaterialRepository {
         return $statement->rowCount() > 0;
     }
 
-    public function exists(int $materialId) {
+    public function exists(int $materialId): bool {
         $sql       = "select id from material where id = :id ;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $statement->bindParam(":id", $materialId);
         $statement->execute();
 
         return $statement->rowCount() > 0;
     }
 
-    public function delete(int $materialId) {
+    public function delete(int $materialId): bool {
         $files = $this->getFilesForMaterial($materialId);
 
         $sql       = "delete from material_file where m_id = :id ;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $statement->bindParam(":id", $materialId);
         $statement->execute();
 
         $sql       = "delete from material where id = :id ;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $statement->bindParam(":id", $materialId);
         $statement->execute();
 
@@ -331,7 +328,7 @@ class MaterialRepository {
         if (false === $deleted) return false;
 
         foreach ($files as $file) {
-            $this->fileManager->delete((int) $file['f_id']);
+            $this->fileRepository->delete((int) $file['f_id']);
         }
 
         return true;

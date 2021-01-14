@@ -44,10 +44,14 @@ use Twig\Loader\FilesystemLoader;
  */
 class TemplateManager {
 
-    private $loader = null;
-    private $env    = null;
-    private $map    = null;
-    private $names  = null;
+    /** @var FilesystemLoader */
+    private $loader;
+    /** @var TwigEnv */
+    private $env;
+    /** @var HashTable */
+    private $map;
+    /** @var HashSet */
+    private $names;
 
     public function __construct() {
         $this->names  = new HashSet();

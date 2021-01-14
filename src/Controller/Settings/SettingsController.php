@@ -81,8 +81,7 @@ class SettingsController extends AbstractController {
     protected function create(): ?string {
 
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::SETTINGS_VIEW
+             View::SETTINGS_VIEW
         );
 
         $users = $this->userRepository->getAll();

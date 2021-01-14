@@ -40,14 +40,15 @@ use PDO;
  */
 class StudySubjectRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
     }
 
-    public function getSubjects() {
+    public function getSubjects(): array {
         $array     = [];
         $sql       = "select 
                         f.id
@@ -56,9 +57,7 @@ class StudySubjectRepository {
                   where f.active = :active
                 order by f.subject asc;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
+
         $active = 1;
         $statement->bindParam("active", $active);
         $statement->execute();
@@ -73,7 +72,7 @@ class StudySubjectRepository {
         return $array;
     }
 
-    public function getSubjectsByAppId($appId) {
+    public function getSubjectsByAppId(int $appId): array {
         $array = [];
         $sql   = "
                         SELECT 
@@ -86,14 +85,11 @@ class StudySubjectRepository {
                         ORDER BY f.`subject` ASC;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
 
         $statement->bindParam("app_id", $appId);
         $statement->execute();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
-            $id   = $row[0];
+            $id      = $row[0];
             $subject = $row[1];
 
             FileLogger::debug($id);
@@ -114,7 +110,6 @@ class StudySubjectRepository {
                           and f.active = :active
                         )";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $active = 1;
         $statement->bindParam(":sub_id", $subjectId);
         $statement->bindParam(":active", $active);
@@ -133,10 +128,6 @@ class StudySubjectRepository {
                                     , :active
                                     )";
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) {
-            return null;
-        }
 
         $active = 1;
 

@@ -38,6 +38,7 @@ use Didapptic\Repository\App\AppRepository;
 use Didapptic\Service\App\Metadata\MetadataService;
 use Didapptic\Service\Application\I18N\TranslationService;
 use Didapptic\Service\User\UserService;
+use Exception;
 
 /**
  * Class EditAppController
@@ -50,12 +51,17 @@ class EditAppController extends AbstractController {
     /** @var Environment $properties */
     private $properties;
     /** @var App|null $app */
-    private $app            = null;
-    private $privacy        = null;
-    private $subjects       = null;
-    private $tags           = null;
-    private $categories     = null;
-    private $recommendation = null;
+    private $app = null;
+    /** @var array */
+    private $privacy;
+    /** @var array */
+    private $subjects;
+    /** @var array */
+    private $tags;
+    /** @var array */
+    private $categories;
+    /** @var array */
+    private $recommendation;
     /** @var TranslationService */
     private $translationService;
     /** @var UserService */
@@ -85,7 +91,11 @@ class EditAppController extends AbstractController {
     }
 
     protected function onCreate(): void {
-        $storeId              = $this->getArgument("storeId");
+        $storeId = $this->getArgument("storeId");
+
+        if (null === $storeId) {
+            throw new Exception('no store id found');
+        }
         $this->recommendation = $this->metadataService->getMetadata("recommendation");
         $this->categories     = $this->metadataService->getMetadata("category");
         $this->tags           = $this->metadataService->getMetadata("tag");
@@ -101,10 +111,7 @@ class EditAppController extends AbstractController {
 
         if (null === $this->app) {
 
-            $template = $this->loadTemplate(
-                $this->getTemplatePath()
-                , View::ALERT_VIEW
-            );
+            $template = $this->loadTemplate(View::ALERT_VIEW);
 
             return $template->render(
                 [
@@ -115,8 +122,7 @@ class EditAppController extends AbstractController {
         }
 
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::APP_FORM_VIEW
+            View::APP_FORM_VIEW
         );
 
         /** @var User $user */

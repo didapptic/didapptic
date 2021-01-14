@@ -102,6 +102,7 @@ class AppRepository {
         $this->appCategoryRepository  = $appCategoryRepository;
         $this->appSubjectRepository   = $appSubjectRepository;
         $this->connector->connect();
+        /** @phpstan-ignore-next-line */
         $this->connector->getConnection()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
@@ -112,7 +113,7 @@ class AppRepository {
                   WHERE a.`store_id` = :storeId 
                     AND a.`operating_system` = :operating_system;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+
         $storeId         = $app->getStoreId();
         $operatingSystem = $app->getOperatingSystem();
         $statement->bindParam(":storeId", $storeId);
@@ -187,9 +188,7 @@ class AppRepository {
                                   , :create_ts
                                   );";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $this->connector->startTransaction();
         $store_id          = $app->getStoreId();
         $price             = (float) $app->getPrice();
@@ -200,7 +199,7 @@ class AppRepository {
         $lastStoreUpdateTs = (int) $lastStoreUpdateTs->getTimestamp();
         $rating            = (float) $app->getRating();
         $releaseDate       = $app->getReleaseDate();
-        $releaseDate       = (int) $releaseDate->getTimestamp();
+        $releaseDate       = $releaseDate !== null ? (int) $releaseDate->getTimestamp() : 0;
         $storeUrl          = (string) $app->getStoreURL();
         $ratingAuthor      = -1;
         $resultsQuality    = $app->getResultsQuality();
@@ -242,7 +241,7 @@ class AppRepository {
         $statement->bindParam(":create_ts", $createTs);
         $statement->execute();
 
-        $appId            = (int) $this->connector->getConnection()->lastInsertId();
+        $appId            = (int) $this->connector->getLastInsertId();
         $tags             = $app->getTags();
         $categories       = $app->getCategories();
         $subjects         = $app->getSubjects();
@@ -295,7 +294,7 @@ class AppRepository {
         if (true === $app->isIos()) {
             $this->urlRepository->insert(
                 $appId
-                , $app->getIosPrivacy()
+                , (string) $app->getIosPrivacy()
                 , "ios_privacy"
                 , (new DateTime())->getTimestamp()
             );
@@ -497,7 +496,7 @@ class AppRepository {
 
     }
 
-    public function getAppByStoreId(string $storeId, bool $includeDeleted = false) {
+    public function getAppByStoreId(string $storeId, bool $includeDeleted = false): ?App {
         $apps = $this->getAll($includeDeleted);
 
         /** @var App $app */
@@ -554,9 +553,7 @@ class AppRepository {
         $sql = $sql . " order by a.`id` desc;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $arrayList;
-        }
+
         $remark = CommentRepository::DIDACTIC_REMARK;
         $statement->bindParam(":d_remark", $remark);
         $comment = CommentRepository::DIDACTIC_COMMENT;
@@ -597,7 +594,7 @@ class AppRepository {
                 $this->dateTimeService->fromTimestamp(
                     null !== $lastUpdate
                         ? (int) $lastUpdate
-                        : null
+                        : 0
                 )
             );
 
@@ -624,7 +621,7 @@ class AppRepository {
                 $this->dateTimeService->fromTimestamp(
                     null !== $createTs
                         ? (int) $createTs
-                        : null
+                        : 0
                 )
             );
 
@@ -676,7 +673,6 @@ class AppRepository {
         FileLogger::debug("going to delete $storeId");
         $sql       = "DELETE FROM `app` WHERE `store_id` = :app_id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam(":app_id", $storeId);
         $deleted = $statement->execute();
         Didapptic::getServer()->clearCaches();
@@ -686,7 +682,7 @@ class AppRepository {
     public function hide(string $storeId): bool {
         $sql       = "UPDATE `app` SET `delete_ts` = :delete_ts WHERE `id` = :app_id";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+
         $deleteTs = (new DateTime())->getTimestamp();
 
         $statement->bindParam(":delete_ts", $deleteTs);

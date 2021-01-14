@@ -38,20 +38,18 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class TagRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
     }
 
-    public function getTags() {
+    public function getTags(): array {
         $array     = [];
         $sql       = "select `id`, `tag` from `tag` order by `tag` asc;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
         $statement->execute();
         while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
             $id   = $row[0];
@@ -64,7 +62,7 @@ class TagRepository {
         return $array;
     }
 
-    public function getTagsByAppId($appId) {
+    public function getTagsByAppId(int $appId): array {
         $array     = [];
         $sql       = "  select 
                           t.`id`
@@ -75,9 +73,7 @@ class TagRepository {
                   where A.`id` = :app_id
                   order by `tag` asc;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
+
         $statement->bindParam("app_id", $appId);
         $statement->execute();
         while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
@@ -94,7 +90,6 @@ class TagRepository {
     public function exists(string $tag): bool {
         $sql       = "select exists(select `id` from `tag` where `id` = :tagId)";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
         $statement->bindParam(":tagId", $tag);
         $statement->execute();
         $row    = $statement->fetch(\PDO::FETCH_BOTH);
@@ -111,10 +106,6 @@ class TagRepository {
                                     )";
 
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) {
-            return null;
-        }
 
         $statement->bindParam(":tag", $tag);
 

@@ -38,6 +38,7 @@ use Didapptic\Service\User\Role\RoleService;
 use doganoo\PHPAlgorithms\Datastructure\Maps\HashMap;
 use doganoo\PHPUtil\Util\DateTimeUtil;
 use doganoo\PHPUtil\Util\StringUtil;
+use Exception;
 
 /**
  * Class UserService
@@ -153,9 +154,14 @@ class UserService {
      * @param string $password
      *
      * @return string
+     * @throws Exception
      */
     public function hashPassword(string $password): string {
-        return password_hash($password, PASSWORD_BCRYPT);
+        $hashed = password_hash($password, PASSWORD_BCRYPT);
+        if (false === $hashed) {
+            throw new Exception('could not hash password');
+        }
+        return $hashed;
     }
 
     public function reset(string $username): ?array {
@@ -185,13 +191,13 @@ class UserService {
         if (true === $passwordLength < 8) return false;
 
         // Check the number of upper case letters in the password
-        if (strlen(preg_replace('/([^A-Z]*)/', '', $password)) < 1) return false;
+        if (strlen((string) preg_replace('/([^A-Z]*)/', '', $password)) < 1) return false;
 
         // Check the number of lower case letters in the password
-        if (strlen(preg_replace('/([^a-z]*)/', '', $password)) < 1) return false;
+        if (strlen((string) preg_replace('/([^a-z]*)/', '', $password)) < 1) return false;
 
         // minimum 1 number
-        if (strlen(preg_replace('/([^0-9]*)/', '', $password)) < 1) return false;
+        if (strlen((string) preg_replace('/([^0-9]*)/', '', $password)) < 1) return false;
         return true;
     }
 

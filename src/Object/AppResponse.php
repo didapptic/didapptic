@@ -38,7 +38,9 @@ class AppResponse {
 
     public const LIMIT_NOT_REACHED = 0;
     public const LIMIT_REACHED     = 1;
-    private $status  = 0;
+    /** @var int */
+    private $status = 0;
+    /** @var string */
     private $message = "";
 
     public function __toString() {

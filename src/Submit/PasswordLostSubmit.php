@@ -43,6 +43,7 @@ use Didapptic\Service\Template\TemplateRenderer;
 use Didapptic\Service\User\Permission\PermissionService;
 use Didapptic\Service\User\UserService;
 use doganoo\INotify\Notification\Type\IType;
+use Exception;
 
 /**
  * Class PasswordLostSubmit
@@ -103,7 +104,13 @@ class PasswordLostSubmit extends AbstractSubmit {
      * @return bool
      */
     protected function create(): bool {
-        $response = $this->userService->reset($this->getArgument("username"));
+        $username = $this->getArgument("username");
+
+        if (null === $username) {
+            throw new Exception('missing username');
+        }
+
+        $response = $this->userService->reset($username);
 
         if (null === $response) return false;
 

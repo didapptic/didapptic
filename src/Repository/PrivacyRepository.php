@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Didapptic\Repository;
 
 use doganoo\PHPUtil\Storage\PDOConnector;
+use PDO;
 
 /**
  * Class PrivacyManager
@@ -38,22 +39,21 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class PrivacyRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
     }
 
-    public function getPrivacy() {
+    public function getPrivacy(): array {
         $array     = [];
         $sql       = "select `id`, `privacy` from `privacy` order by `privacy` asc;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return $array;
-        }
+
         $statement->execute();
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $id   = $row[0];
             $name = $row[1];
             if ($id === "" || $name === "") {

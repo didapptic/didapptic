@@ -51,28 +51,30 @@ use function unlink;
  */
 class iTunesAppRequest extends AbstractAppRequest {
 
-    private $optionManager = null;
-    private $sysProperties = null;
+    /** @var OptionRepository */
+    private $optionRepository;
+    /** @var Environment */
+    private $environment;
 
     public function __construct(
         OptionRepository $optionManager
         , Environment $sysProperties
     ) {
         parent::__construct();
-        $this->optionManager = $optionManager;
-        $this->sysProperties = $sysProperties;
+        $this->optionRepository = $optionManager;
+        $this->environment      = $sysProperties;
     }
 
     public function requestData(): AppResponse {
         $savePath     = Didapptic::getServer()->getAppCachePath() . "/ios";
-        $useCachedApp = $this->sysProperties->isDebug();
+        $useCachedApp = $this->environment->isDebug();
         $response     = new AppResponse();
         foreach (parent::getAppList() as $appId) {
             $fileName = "$savePath/{$appId}.json";
             if (is_file($fileName) && $useCachedApp) {
                 FileLogger::debug("using file");
                 $string = file_get_contents($fileName);
-                $json   = json_decode($string, true);
+                $json   = json_decode((string) $string, true);
                 $app    = AppFactory::toAppleApp($json);
                 $this->addApp($app);
                 continue;
@@ -99,7 +101,7 @@ class iTunesAppRequest extends AbstractAppRequest {
                     unlink($fileName);
                 }
                 file_put_contents($fileName, $string);
-                $json = json_decode($string, true);
+                $json = json_decode((string) $string, true);
                 if (($json['resultCount'] ?? 0) === 0) {
                     $this->addInactiveApp($appId);
                     continue;

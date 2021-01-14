@@ -27,7 +27,6 @@ Didaptic is a open source app database mainly intended for the education sector.
     - fill the variables
 6. change to bin/
 7. run compile_stylesheets.php
-    - depending on the debug variable the resulting stylesheet will be minified
 8. run migrations: ./vendor/bin/phinx migrate -c config/phinx/phinx.php
 9. remove the following files/directories:
     - webpack.config.js

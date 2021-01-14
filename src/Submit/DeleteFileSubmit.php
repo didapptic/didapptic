@@ -33,6 +33,7 @@ use Didapptic\Object\Material;
 use Didapptic\Repository\FileRepository;
 use Didapptic\Repository\MaterialRepository;
 use Didapptic\Service\Installation\Files\FileService;
+use Exception;
 
 /**
  * Class DeleteFileSubmit
@@ -48,9 +49,9 @@ class DeleteFileSubmit extends AbstractSubmit {
     private $fileManager;
     /** @var MaterialRepository */
     private $materialManager;
-    /** @var File */
+    /** @var File|null */
     private $file;
-    /** @var Material */
+    /** @var Material|null */
     private $material;
 
     public function __construct(
@@ -76,8 +77,22 @@ class DeleteFileSubmit extends AbstractSubmit {
 
     }
 
+    /**
+     * @return bool
+     * @throws Exception
+     */
     protected function create(): bool {
-        return $this->fileService->remove($this->file, $this->material);
+        if (null === $this->file) {
+            throw new Exception('no file');
+        }
+
+        if (null === $this->material) {
+            throw new Exception('no material');
+        }
+        return $this->fileService->remove(
+            $this->file
+            , $this->material
+        );
     }
 
     protected function onDestroy(): void {

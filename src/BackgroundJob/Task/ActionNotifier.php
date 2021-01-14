@@ -88,7 +88,6 @@ class ActionNotifier extends Task {
 
         FileLogger::debug("========= start action notifier =========");
 
-        /** @var IQueue|ArrayList $queue */
         $queue = $this->notificationManager->getNotificationQueue();
         $queue = $this->replaceDebugNotification($queue);
         $this->notificationHandler->setNotifications($queue);

@@ -50,8 +50,10 @@ class AddSubjectSubmit extends AbstractSubmit {
     }
 
     protected function valid(): bool {
-        $this->subject = $this->getArgument("value");
-        return "" !== trim($this->subject);
+        $subject = $this->getArgument("value");
+        if (null === $subject || "" === trim($subject)) return false;
+        $this->subject = $subject;
+        return true;
     }
 
     protected function onCreate(): void {

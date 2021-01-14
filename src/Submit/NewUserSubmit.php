@@ -44,8 +44,10 @@ use Didapptic\Service\User\Permission\PermissionService;
 use Didapptic\Service\User\Register\UserRegisterService;
 use Didapptic\Service\User\UserService;
 use doganoo\IN\Notification\Notification;
+use doganoo\IN\Notification\Type\Type;
 use doganoo\INotify\Notification\Type\IType;
 use doganoo\PHPUtil\Log\FileLogger;
+use Exception;
 
 class NewUserSubmit extends AbstractSubmit {
 
@@ -58,8 +60,8 @@ class NewUserSubmit extends AbstractSubmit {
     /** User created on API side and WordPress */
     private const REGISTER_TYPE_USER_REGULARLY_CREATED = 4;
 
-    /** @var Environment|null $environment */
-    private $environment = null;
+    /** @var Environment $environment */
+    private $environment;
     /** @var null|Registrant $registrant */
     private $registrant = null;
     /** @var WordPressService $wordPressService */
@@ -126,6 +128,9 @@ class NewUserSubmit extends AbstractSubmit {
     }
 
     protected function create(): bool {
+        if (null === $this->registrant) {
+            throw new Exception('no registrant');
+        }
         $this->confirmationToken = $this->userRegisterService->generateToken();
         $this->registrant        = $this->userRegisterService->registerUser(
             $this->registrant
@@ -166,6 +171,7 @@ class NewUserSubmit extends AbstractSubmit {
     private function handleWordPressBackend(): bool {
         // we do not handle WP stuff if we are not on production
         if (false === $this->environment->isProduction()) return true;
+        if (null === $this->registrant) return false;
 
         $wpUser    = $this->wordPressService->createUser($this->registrant);
         $wpCreated = null !== $wpUser;
@@ -232,7 +238,7 @@ class NewUserSubmit extends AbstractSubmit {
         $notification->setDelay(0);
         $notification->setSubject("Ihre Registrierung auf didapptic.com");
         $notification->setExecuted(false);
-        $type = new \doganoo\IN\Notification\Type\Type();
+        $type = new Type();
         $type->setId(TypeConstants::NOTIFICATION[NotificationConstants::REGISTRATION_INFORMATION][IType::MAIL] ?? -1);
         $type->setPermission(
             $this->permissionService->toPermission(Permission::DEFAULT_PERMISSION)

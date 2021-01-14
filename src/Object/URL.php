@@ -28,6 +28,8 @@ declare(strict_types=1);
 
 namespace Didapptic\Object;
 
+use DateTimeInterface;
+
 /**
  * Class URL
  *
@@ -36,79 +38,54 @@ namespace Didapptic\Object;
  */
 class URL {
 
+    /** @var int */
     private $id;
+    /** @var string */
     private $appId;
+    /** @var array */
     private $urls;
+    /** @var string */
     private $name;
+    /** @var DateTimeInterface */
     private $createTs;
 
-    /**
-     * @return mixed
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id) {
+    public function setId(int $id): void {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAppId() {
+    public function getAppId(): string {
         return $this->appId;
     }
 
-    /**
-     * @param mixed $appId
-     */
-    public function setAppId($appId) {
+    public function setAppId(string $appId): void {
         $this->appId = $appId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUrls() {
+    public function getUrls(): array {
         return $this->urls;
     }
 
-    /**
-     * @param mixed $urls
-     */
-    public function setUrls($urls) {
+    public function setUrls(array $urls): void {
         $this->urls = $urls;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     */
-    public function setName($name) {
+    public function setName(string $name): void {
         $this->name = $name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCreateTs() {
+    public function getCreateTs(): DateTimeInterface {
         return $this->createTs;
     }
 
-    /**
-     * @param mixed $createTs
-     */
-    public function setCreateTs($createTs) {
+    public function setCreateTs(DateTimeInterface $createTs): void {
         $this->createTs = $createTs;
     }
 

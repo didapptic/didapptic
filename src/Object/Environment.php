@@ -42,8 +42,10 @@ use function strpos;
  */
 class Environment {
 
-    private $sysProperties = null;
-    private $cache         = null;
+    /** @var Properties */
+    private $sysProperties;
+    /** @var HashMap */
+    private $cache;
 
     public function __construct(Properties $sysProperties) {
         $this->sysProperties = $sysProperties;
@@ -192,7 +194,7 @@ class Environment {
     }
 
     public function getWPApplicationPassword(): string {
-        return $this->sysProperties->read("password.application.backend.wordpress");
+        return (string) $this->sysProperties->read("password.application.backend.wordpress");
     }
 
     public function isSecure(): bool {

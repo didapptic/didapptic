@@ -110,7 +110,9 @@ class AppSubmitService {
 
         if (true === $appExistsButWasDeleted) {
             FileLogger::debug("App already exists, but got deleted before. Reactivating and aborting!");
+            /** @phpstan-ignore-next-line */
             $app->setDeleteTs(null);
+            /** @phpstan-ignore-next-line */
             $app->setCreateTs(new DateTime());
 
             $app = $this->appRequestService->arrayToApp(

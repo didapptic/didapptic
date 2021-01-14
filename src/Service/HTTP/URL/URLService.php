@@ -36,7 +36,8 @@ namespace Didapptic\Service\HTTP\URL;
  */
 class URLService {
 
-    public function getParameterFromURL(string $url, string $parameter): ?string {
+    public function getParameterFromURL(?string $url, string $parameter): ?string {
+        if (null === $url) return null;
         $parts  = parse_url($url);
         $result = [];
         if (false === $parts) return null;
@@ -48,7 +49,8 @@ class URLService {
         return $result[$parameter] ?? null;
     }
 
-    public function regexParameterFromURL(string $url, string $pattern): ?string {
+    public function regexParameterFromURL(?string $url, string $pattern): ?string {
+        if (null === $url) return null;
         $matches = [];
         $matched = preg_match($pattern, $url, $matches);
         // weird stuff:

@@ -28,6 +28,7 @@ declare(strict_types=1);
 
 namespace Didapptic\Repository;
 
+use DateTime;
 use doganoo\PHPUtil\Storage\PDOConnector;
 
 /**
@@ -38,7 +39,8 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class RequestRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -49,9 +51,7 @@ class RequestRepository {
         $sql       = "insert into request (email, name, request, created_at) values (:email, :name, :request, :created_at);";
         $statement = $this->connector->prepare($sql);
 
-        if (null === $statement) return false;
-
-        $time = (new \DateTime())->getTimestamp();
+        $time = (new DateTime())->getTimestamp();
         $statement->bindParam(":email", $mail);
         $statement->bindParam(":name", $name);
         $statement->bindParam(":request", $request);

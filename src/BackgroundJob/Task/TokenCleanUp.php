@@ -31,6 +31,7 @@ namespace Didapptic\BackgroundJob\Task;
 use Didapptic\Object\Token;
 use Didapptic\Repository\TokenRepository;
 use doganoo\Backgrounder\Task\Task;
+use doganoo\PHPAlgorithms\Datastructure\Lists\ArrayLists\ArrayList;
 use doganoo\PHPUtil\Log\FileLogger;
 use Exception;
 
@@ -42,9 +43,12 @@ use Exception;
  */
 class TokenCleanUp extends Task {
 
-    private $tokenManager = null;
-    private $tokenList    = null;
-    private $deactivated  = 0;
+    /** @var TokenRepository */
+    private $tokenManager;
+    /** @var ArrayList|null */
+    private $tokenList;
+    /** @var int */
+    private $deactivated = 0;
 
     public function __construct(TokenRepository $tokenManager) {
         $this->tokenManager = $tokenManager;

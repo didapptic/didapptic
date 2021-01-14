@@ -42,7 +42,8 @@ use PDO;
  */
 class BackgroundJobRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -91,7 +92,6 @@ class BackgroundJobRepository {
                     , b.`create_ts`
                 FROM background_job b;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return $list;
         $statement->execute();
         $list = new JobList();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
@@ -141,10 +141,6 @@ class BackgroundJobRepository {
         ";
 
         $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) {
-            return false;
-        }
 
         $id       = $job->getId();
         $name     = $job->getName();
@@ -218,8 +214,6 @@ class BackgroundJobRepository {
         if (false === $executed) return false;
 
         $lastInsertId = $this->connector->getLastInsertId();
-
-        if (null === $lastInsertId) return false;
 
         return false === $this->hasErrors($statement->errorCode());
 

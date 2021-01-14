@@ -28,8 +28,11 @@ declare(strict_types=1);
 
 namespace Didapptic\Repository;
 
+use DateTime;
 use Didapptic\Object\Option;
 use doganoo\PHPUtil\Storage\PDOConnector;
+use PDO;
+use function intval;
 
 /**
  * Class OptionManager
@@ -39,37 +42,37 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class OptionRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
         $this->connector->connect();
     }
 
-    public function getOption(string $name, string $default = null): ?Option {
+    public function getOption(string $name, string $default = ''): Option {
         $sql    = "SELECT name, value, create_ts FROM options where name = :name;";
         $option = new Option();
         $option->setName($name);
         $option->setValue($default);
-        $option->setCreateTs(0);
-        $connection = $this->connector->getConnection();
-        $statement  = $connection->prepare($sql);
-        if (!$statement) {
-            return $option;
-        }
+        $option->setCreateTs(new DateTime());
+        $statement = $this->connector->prepare($sql);
+
         $statement->bindParam(":name", $name);
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return $option;
         }
-        while ($row = $statement->fetch(\PDO::FETCH_BOTH)) {
+        while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $nname    = $row[0];
             $value    = $row[1];
-            $createTs = \intval($row[2]);
+            $createTs = intval($row[2]);
 
             $option->setName($nname);
             $option->setValue($value);
-            $option->setCreateTs($createTs);
+            $dateTime = new DateTime();
+            $dateTime->setTimestamp($createTs);
+            $option->setCreateTs($dateTime);
         }
         return $option;
     }
@@ -82,53 +85,42 @@ class OptionRepository {
     }
 
     private function exists(string $key): bool {
-        $connection = $this->connector->getConnection();
-        $sql        = "SELECT exists(SELECT value FROM options WHERE name = :name);";
-        $statement  = $connection->prepare($sql);
-        if (!$statement) {
-            return false;
-        }
+        $sql       = "SELECT exists(SELECT value FROM options WHERE name = :name);";
+        $statement = $this->connector->prepare($sql);
+
         $statement->bindParam(":name", $key);
         $statement->execute();
         if ($statement->rowCount() === 0) {
             return false;
         }
-        $row    = $statement->fetch(\PDO::FETCH_BOTH);
+        $row    = $statement->fetch(PDO::FETCH_BOTH);
         $exists = $row[0];
         return $exists == "1";
     }
 
-    public function update(string $name, string $value) {
+    public function update(string $name, string $value): bool {
         $sql       = "UPDATE options SET 
                     value = :value, 
                     create_ts = :create_ts
                 WHERE name = :name";
-        $statement = $this->connector->getConnection()->prepare($sql);
-        $createTs  = (new \DateTime())->getTimestamp();
+        $statement = $this->connector->prepare($sql);
+        $createTs  = (new DateTime())->getTimestamp();
         $statement->bindParam(":value", $value);
         $statement->bindParam(":create_ts", $createTs);
         $statement->bindParam(":name", $name);
 
-        $executed = $statement->execute();
-        if ($executed) {
-            return true;
-        }
-        return false;
+        return $executed = $statement->execute();
     }
 
     public function insert(string $name, string $value): bool {
         $sql       = "INSERT INTO options (name, value, create_ts) values (:name, :value, :create_ts);";
-        $createTs  = (new \DateTime())->getTimestamp();
-        $statement = $this->connector->getConnection()->prepare($sql);
+        $createTs  = (new DateTime())->getTimestamp();
+        $statement = $this->connector->prepare($sql);
         $statement->bindParam(":name", $name);
         $statement->bindParam(":value", $value);
         $statement->bindParam(":create_ts", $createTs);
 
-        $executed = $statement->execute();
-        if ($executed) {
-            return true;
-        }
-        return false;
+        return $statement->execute();
     }
 
 }

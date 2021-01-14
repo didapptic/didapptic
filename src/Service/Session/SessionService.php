@@ -72,6 +72,7 @@ class SessionService {
      */
     public function get(string $name, ?string $default = null): ?string {
         $this->session->start();
+        /** @phpstan-ignore-next-line */
         return $this->session->get($name, $default);
     }
 

@@ -46,12 +46,13 @@ abstract class Action {
      */
     protected function createObject(string $className) {
         $constructorArgs = [];
-        $instance        = new ReflectionClass($className);
+        /** @phpstan-ignore-next-line */
+        $instance = new ReflectionClass($className);
 
         if (null !== $instance->getConstructor()) {
             foreach ($instance->getConstructor()->getParameters() as $parameter) {
                 if (true === $parameter->isDefaultValueAvailable()) continue;
-                $className         = $parameter->getClass()->getName();
+                $className         = $parameter->getClass() !== null ? $parameter->getClass()->getName() : '';
                 $class             = Didapptic::getServer()->query($className);
                 $constructorArgs[] = $class;
             }

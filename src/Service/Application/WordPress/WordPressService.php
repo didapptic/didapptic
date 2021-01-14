@@ -43,7 +43,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class WordPressService {
 
-    private $environment = null;
+    /** @var Environment */
+    private $environment;
 
     public function __construct(Environment $environment) {
         $this->environment = $environment;

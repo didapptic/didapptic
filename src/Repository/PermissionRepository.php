@@ -43,7 +43,8 @@ use PDO;
  */
 class PermissionRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -61,9 +62,7 @@ class PermissionRepository {
         $statement          = $this->connector->prepare($sql);
         $defaultPermissions = Role::DEFAULT_ROLE;
         $statement->bindParam(":default_role_id", $defaultPermissions);
-        if (null === $statement) {
-            return $tree;
-        }
+
         $statement->execute();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $id         = $row[0];
@@ -95,9 +94,7 @@ class PermissionRepository {
                     left join permission p on pr.permission_id = p.id
                 where p.id = :id;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return null;
-        }
+
         $statement->bindParam("id", $id);
         $statement->execute();
         $tree = new BinarySearchTree();
@@ -115,9 +112,7 @@ class PermissionRepository {
                 from permission p 
                 where p.id = :id;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return null;
-        }
+
         $statement->bindParam("id", $id);
         $statement->execute();
         $permission = new Permission();

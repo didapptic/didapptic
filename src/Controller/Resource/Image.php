@@ -63,7 +63,8 @@ class Image extends AbstractResource {
     }
 
     protected function onCreate(): void {
-        $this->name = $this->getArgument("name");
+        $name = $this->getArgument("name");
+        $this->name = null !== $name ? $name : '';
     }
 
     protected function create(): ?string {
@@ -72,6 +73,7 @@ class Image extends AbstractResource {
         $this->dirHandler->setPath($path);
         $fileHandler = $this->dirHandler->findFile($this->name);
 
+        if (null === $fileHandler) return null;
         if (false === $fileHandler->isFile()) {
             FileLogger::debug("can not find {$fileHandler->getPath()}, regarding to {$this->name}");
             $this->setResponseCode(HTTP::NOT_FOUND);

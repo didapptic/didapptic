@@ -91,7 +91,7 @@ class AppMonstaAppRequest extends AbstractAppRequest {
             if (is_file($fileName) && $useCachedApp) {
                 FileLogger::info("using cached app for $appId");
                 $string = file_get_contents($fileName);
-                $string = utf8_encode($string);
+                $string = utf8_encode((string) $string);
                 $json   = json_decode($string, true);
                 $app    = AppFactory::toAndroidApp($json);
                 $this->addApp($app);
@@ -118,10 +118,15 @@ class AppMonstaAppRequest extends AbstractAppRequest {
                 continue;
             }
 
-            $string   = gzdecode($curl->response);
-            $string   = utf8_encode($string);
-            $json     = json_decode($string, true);
-            $app      = AppFactory::toAndroidApp($json);
+            $string = gzdecode($curl->response);
+            $string = utf8_encode((string) $string);
+            $json   = json_decode($string, true);
+            $app    = AppFactory::toAndroidApp($json);
+
+            if (null === $app) {
+                FileLogger::error('no app !!!!!!');
+                continue;
+            }
             $fileName = "$savePath/{$app->getStoreId()}.json";
             if (is_file($fileName)) {
                 FileLogger::info("is file. going to delete");
@@ -146,7 +151,7 @@ class AppMonstaAppRequest extends AbstractAppRequest {
         return parent::getAppList();
     }
 
-    public function clear() {
+    public function clear(): void {
         parent::clear();
     }
 

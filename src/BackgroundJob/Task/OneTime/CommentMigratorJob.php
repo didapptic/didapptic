@@ -44,9 +44,12 @@ use PDO;
  */
 class CommentMigratorJob extends Task {
 
-    private $connector      = null;
-    private $commentManager = null;
-    private $appManager     = null;
+    /** @var PDOConnector */
+    private $connector;
+    /** @var CommentRepository */
+    private $commentManager;
+    /** @var AppRepository */
+    private $appManager;
 
     public function __construct(
         PDOConnector $connector
@@ -79,7 +82,6 @@ class CommentMigratorJob extends Task {
                 from App_DidKommentar ad
                   left join DidKommentar DK on ad.DidKommentarID = DK.DidKommentarID;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return;
         $statement->execute();
 
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
@@ -95,7 +97,6 @@ class CommentMigratorJob extends Task {
             if ($inserted) {
                 $sql       = "delete from DidKommentar where DidKommentarID in (select App_DidKommentar.DidKommentarID from App_DidKommentar where AppID = :app_id);";
                 $statement = $this->connector->prepare($sql);
-                if (null === $statement) continue;
                 $statement->bindParam("app_id", $id);
                 $statement->execute();
             }
@@ -103,9 +104,8 @@ class CommentMigratorJob extends Task {
     }
 
     private function tableExists(string $tableName): bool {
-        $sql       = "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = :schema_name) AND (TABLE_NAME = :table_name);";
-        $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+        $sql        = "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = :schema_name) AND (TABLE_NAME = :table_name);";
+        $statement  = $this->connector->prepare($sql);
         $schemaName = $this->connector->getSchema();
         $statement->bindParam("schema_name", $schemaName);
         $statement->bindParam("table_name", $tableName);
@@ -135,7 +135,6 @@ class CommentMigratorJob extends Task {
   Anmerkungen
 from Anmerkungen a left join App_Anmerkungen A3 on a.AnmerkungenID = A3.AnmerkungenID;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return;
         $statement->execute();
 
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
@@ -151,7 +150,6 @@ from Anmerkungen a left join App_Anmerkungen A3 on a.AnmerkungenID = A3.Anmerkun
             if ($inserted) {
                 $sql       = "delete from Anmerkungen where AnmerkungenID in (select AnmerkungenID from App_Anmerkungen where AppID = :app_id);";
                 $statement = $this->connector->prepare($sql);
-                if (null === $statement) continue;
                 $statement->bindParam("app_id", $id);
                 $statement->execute();
             }
@@ -167,7 +165,6 @@ from Anmerkungen a left join App_Anmerkungen A3 on a.AnmerkungenID = A3.Anmerkun
   PrivacyComment
 from PrivacyComment a left join App_PrivacyComment Comment2 on a.PrivacyCommentID = Comment2.PrivacyCommentID;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return;
         $statement->execute();
 
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
@@ -183,7 +180,6 @@ from PrivacyComment a left join App_PrivacyComment Comment2 on a.PrivacyCommentI
             if ($inserted) {
                 $sql       = "delete from PrivacyComment where PrivacyCommentID in (select PrivacyCommentID from App_PrivacyComment where AppID = :app_id);";
                 $statement = $this->connector->prepare($sql);
-                if (null === $statement) continue;
                 $statement->bindParam("app_id", $id);
                 $statement->execute();
             }

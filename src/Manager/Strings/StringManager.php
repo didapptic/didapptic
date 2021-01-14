@@ -58,8 +58,8 @@ class StringManager {
                 if (true === $fileInfo->isDir()) continue;
 
                 if (Extension::JSON === $fileInfo->getExtension()) {
-                    $content = file_get_contents($fileInfo->getRealPath());
-                    $content = json_decode($content, true);
+                    $content = file_get_contents((string) $fileInfo->getRealPath());
+                    $content = json_decode((string) $content, true);
 
                     if (null !== $content) {
                         $table->put($fileInfo->getBasename(), $content);

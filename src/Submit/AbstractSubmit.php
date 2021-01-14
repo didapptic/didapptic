@@ -84,6 +84,10 @@ abstract class AbstractSubmit {
         $this->arguments = $arguments;
     }
 
+    /**
+     * @param string $key
+     * @param mixed  $value
+     */
     public function addResponse(string $key, $value): void {
         $this->response[$key] = $value;
     }

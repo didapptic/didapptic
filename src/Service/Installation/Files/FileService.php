@@ -120,6 +120,7 @@ class FileService {
     }
 
     public function remove(File $file, Material $material): bool {
+        if (null === $file->getId()) return false;
         $deleted = $this->materialManager->disconnectFromFile($material, $file);
         if (false === $deleted) return false;
         $deleted = $this->fileManager->delete($file->getId());

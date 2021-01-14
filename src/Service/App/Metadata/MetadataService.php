@@ -73,8 +73,8 @@ class MetadataService {
         $this->categoryManager       = $categoryManager;
     }
 
-    public function getMetadata(string $context) {
-        $data = null;
+    public function getMetadata(string $context): array {
+        $data = [];
         switch ($context) {
             case MetadataService::CONTEXT_CATEGORY:
                 $data = $this->categoryManager->getCategories();

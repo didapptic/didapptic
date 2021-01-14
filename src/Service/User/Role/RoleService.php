@@ -45,6 +45,7 @@ class RoleService {
      * @return BinarySearchTree
      */
     public function toRoles(array $array): BinarySearchTree {
+        /** @phpstan-ignore-next-line */
         return BinarySearchTree::createFromArrayWithMinimumHeight($array);
     }
 

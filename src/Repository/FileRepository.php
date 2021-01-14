@@ -39,7 +39,8 @@ use doganoo\PHPUtil\Storage\PDOConnector;
  */
 class FileRepository {
 
-    private $connector = null;
+    /** @var PDOConnector */
+    private $connector;
 
     public function __construct(PDOConnector $connector) {
         $this->connector = $connector;
@@ -65,9 +66,6 @@ class FileRepository {
                                     , :size
                                     )";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
 
         $name      = $file->getName();
         $mimeType  = $file->getMimeType();
@@ -95,12 +93,10 @@ class FileRepository {
 
     }
 
-    public function delete(int $fileId) {
+    public function delete(int $fileId): bool {
         $sql       = "delete from file where id = :id ;";
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
-            return false;
-        }
+
         $statement->bindParam(":id", $fileId);
         $statement->execute();
 
@@ -122,7 +118,6 @@ class FileRepository {
                 order by f.create_ts desc;";
 
         $statement = $this->connector->prepare($sql);
-        if (null === $statement) return null;
 
         $statement->bindParam("f_id", $id);
         $statement->execute();

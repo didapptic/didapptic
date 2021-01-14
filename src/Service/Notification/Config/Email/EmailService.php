@@ -39,6 +39,7 @@ use Didapptic\Object\Notification\Applicant\Mail\Config;
  */
 class EmailService {
 
+    /** @var Environment */
     private $environment;
 
     public function __construct(Environment $environment) {

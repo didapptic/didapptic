@@ -51,8 +51,10 @@ class AddTagSubmit extends AbstractSubmit {
     }
 
     protected function valid(): bool {
-        $this->tag = $this->getArgument("value");
-        return "" !== trim($this->tag);
+        $tag = $this->getArgument("value");
+        if (null === $tag || "" === trim($tag)) return false;
+        $this->tag = $tag;
+        return true;
     }
 
     protected function onCreate(): void {

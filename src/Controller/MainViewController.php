@@ -93,8 +93,7 @@ class MainViewController extends AbstractController {
     protected function create(): ?string {
 
         $template = $this->loadTemplate(
-            $this->getTemplatePath()
-            , View::MAIN_VIEW
+             View::MAIN_VIEW
         );
 
         $baseUrl = Didapptic::getBaseURL(true);

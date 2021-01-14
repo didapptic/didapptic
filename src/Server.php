@@ -677,9 +677,7 @@ class Server {
         });
 
         $this->register(Compiler::class, function () {
-            return new Compiler(
-                $this->query(Environment::class)
-            );
+            return new Compiler();
         });
 
         $this->register(DirHandler::class, function () {
@@ -727,6 +725,12 @@ class Server {
         return str_replace("//", "/", $this->appRoot . "/data");
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     * @throws \DI\DependencyException
+     * @throws \DI\NotFoundException
+     */
     public function query(string $name) {
         return $this->container->get($name);
     }

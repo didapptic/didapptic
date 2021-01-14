@@ -61,8 +61,8 @@ class Templates extends AbstractResource {
             $this->frontendManager->getAllRaw()
         );
         $this->setMimeType(MimeType::JSON);
-
-        return json_encode($templates);
+        $json = json_encode($templates);
+        return false === $json ? null : $json;
     }
 
     private function hashTableToArray(HashMap $map): array {

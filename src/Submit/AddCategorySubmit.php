@@ -50,8 +50,10 @@ class AddCategorySubmit extends AbstractSubmit {
     }
 
     protected function valid(): bool {
-        $this->category = $this->getArgument("value");
-        return "" !== trim($this->category);
+        $category = $this->getArgument("value");
+        if (null === $category || "" === trim($category)) return false;
+        $this->category = $category;
+        return true;
     }
 
     protected function onCreate(): void {

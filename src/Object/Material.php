@@ -41,7 +41,7 @@ class Material implements JsonSerializable {
 
     /** @var int|null $id */
     private $id;
-    /** @var string $name */
+    /** @var string */
     private $description;
     /** @var int $date */
     private $date;
