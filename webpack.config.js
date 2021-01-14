@@ -27,6 +27,13 @@ module.exports = {
             loader: 'babel-loader',
         }]
     },
+    resolve: {
+        fallback: {
+            "crypto": require.resolve("crypto-browserify"),
+            "buffer": require.resolve("buffer/"),
+            "util": require.resolve("util/")
+        }
+    },
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
