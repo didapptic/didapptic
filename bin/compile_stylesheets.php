@@ -35,7 +35,7 @@ use GuzzleHttp\Client;
 //require_once "../src/Didapptic.php";
 require_once "../vendor/autoload.php";
 
-$didapptic = new Didapptic();
+//$didapptic = new Didapptic();
 //
 ///** @var Compiler $compiler */
 //$compiler = Didapptic::getServer()->query(Compiler::class);
