@@ -21,7 +21,8 @@ jobs:
         uses: php-actions/composer@v5
         with:
           dev: no
-          args: --profile --ignore-platform-reqs
+          args: --profile --ignore-platform-reqs --no-suggest --prefer-dist
+          php_version: 7.4
 
       - name: Build Project
         uses: actions/setup-node@v2
