@@ -22,7 +22,6 @@ jobs:
         with:
           dev: no
           args: --profile --ignore-platform-reqs
-          php_version: 7.4
 
       - name: Build Project
         uses: actions/setup-node@v2
