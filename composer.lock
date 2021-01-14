@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba1d2aad11adc32522e4e97067007e5e",
+    "content-hash": "1fa3ad899094fd207edf955bf4304a95",
     "packages": [
         {
             "name": "apache/log4php",
@@ -425,6 +425,60 @@
                 "source": "https://github.com/cakephp/utility"
             },
             "time": "2020-12-09T02:43:02+00:00"
+        },
+        {
+            "name": "didapptic/lessphp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/didapptic/lessphp.git",
+                "reference": "a2f5007e4a84b429c2720725ff8185861d03a10a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/didapptic/lessphp/zipball/a2f5007e4a84b429c2720725ff8185861d03a10a",
+                "reference": "a2f5007e4a84b429c2720725ff8185861d03a10a",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.60",
+                "phpunit/phpunit": "^5.7.27",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "default-branch": true,
+            "bin": [
+                "plessc",
+                "lessify"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lessc.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Leaf Corcoran",
+                    "email": "leafot@gmail.com",
+                    "homepage": "http://leafo.net"
+                },
+                {
+                    "name": "Dogan Ucar",
+                    "email": "dogan@dogan-ucar.de",
+                    "homepage": "http://dogan-ucar.de"
+                }
+            ],
+            "description": "lessphp is a compiler for LESS written in PHP.",
+            "homepage": "http://leafo.net/lessphp/",
+            "support": {
+                "source": "https://github.com/didapptic/lessphp/tree/master"
+            },
+            "time": "2021-01-14T21:45:16+00:00"
         },
         {
             "name": "doganoo/backgrounder",
@@ -866,51 +920,6 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.7.0"
             },
             "time": "2020-09-30T07:37:11+00:00"
-        },
-        {
-            "name": "leafo/lessphp",
-            "version": "v0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/leafo/lessphp.git",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.4.x-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "lessc.inc.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "lessphp is a compiler for LESS written in PHP.",
-            "homepage": "http://leafo.net/lessphp/",
-            "support": {
-                "issues": "https://github.com/leafo/lessphp/issues",
-                "source": "https://github.com/leafo/lessphp/tree/v0.5.0"
-            },
-            "time": "2014-11-24T18:39:20+00:00"
         },
         {
             "name": "nikic/fast-route",
@@ -4125,16 +4134,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.66",
+            "version": "0.12.67",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4110a2425c6bd53acbdfcda07885e87b66e9ba3e"
+                "reference": "ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4110a2425c6bd53acbdfcda07885e87b66e9ba3e",
-                "reference": "4110a2425c6bd53acbdfcda07885e87b66e9ba3e",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86",
+                "reference": "ced7a5d9c5dba908c1c00cea3f1d4ad74da71b86",
                 "shasum": ""
             },
             "require": {
@@ -4165,7 +4174,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.66"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.67"
             },
             "funding": [
                 {
@@ -4181,7 +4190,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-11T16:43:15+00:00"
+            "time": "2021-01-14T14:16:19+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5332,7 +5341,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "didapptic/lessphp": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
