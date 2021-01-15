@@ -37,10 +37,11 @@ jobs:
 
       - name: Clean Up
         run: |
+          cd bin/ && php compile_stylesheets.php && cd ../
           rm -rf node_modules
-          rm -rf .github .git config/phpstan config/vagrant test/ js/
+          rm -rf .github .git config/phpstan config/vagrant test/ js/ less/
           rm -f .babelrc .editorconfig .eslintrc.js .gitignore Vagrantfile composer.json composer.lock package-lock.json package.json webpack.config.js
-          cd ../ && pwd
+          cd ../
           zip -r release-${{ github.sha }}.zip didapptic
 
       - name: Create Release

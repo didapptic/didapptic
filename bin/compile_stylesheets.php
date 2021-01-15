@@ -30,22 +30,17 @@ declare(strict_types=1);
 use Didapptic\Didapptic;
 use Didapptic\Service\Asset\Less\Compiler;
 use Didapptic\Service\Asset\Web\Fetcher\Fetcher;
-use GuzzleHttp\Client;
 
-//require_once "../src/Didapptic.php";
+require_once "../src/Didapptic.php";
 require_once "../vendor/autoload.php";
 
-//$didapptic = new Didapptic();
-//
-///** @var Compiler $compiler */
-//$compiler = Didapptic::getServer()->query(Compiler::class);
-///** @var Fetcher $fetcher */
-//$fetcher = Didapptic::getServer()->query(Fetcher::class);
+$didapptic = new Didapptic();
 
-$compiler = new Compiler();
-$fetcher  = new Fetcher(
-    new Client()
-);
+/** @var Compiler $compiler */
+$compiler = Didapptic::getServer()->query(Compiler::class);
+/** @var Fetcher $fetcher */
+$fetcher = Didapptic::getServer()->query(Fetcher::class);
+
 $compiler->compileAll();
 $fetcher->load(
     [

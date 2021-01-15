@@ -31,7 +31,6 @@ namespace Didapptic\Service\Asset\Less;
 use Didapptic\Didapptic;
 use Didapptic\Object\Constant\CSS;
 use Didapptic\Object\Constant\Extension;
-use Didapptic\Object\Environment;
 use lessc;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -47,12 +46,10 @@ use SplFileInfo;
  */
 class Compiler {
 
-    /** @var lessc */
-    private $less;
+    private lessc $less;
 
     /**
      * Compiler constructor.
-     *
      */
     public function __construct() {
         $this->less = new lessc();
@@ -65,7 +62,6 @@ class Compiler {
     }
 
     private function setUpForProduction(): void {
-//        if (true === $this->environment->isDebug()) return; // TODO there is no sys properties file on build
         $this->less->setFormatter("compressed");
     }
 

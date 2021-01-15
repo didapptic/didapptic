@@ -32,6 +32,7 @@ use doganoo\PHPAlgorithms\Datastructure\Maps\HashMap;
 use doganoo\PHPUtil\Exception\FileNotFoundException;
 use doganoo\PHPUtil\Exception\NoPathException;
 use doganoo\PHPUtil\System\Properties;
+use Exception;
 use function strpos;
 
 /**
@@ -58,18 +59,23 @@ class Environment {
 
     /**
      * @param string $name
+     * @param mixed  $default
      *
      * @return null|string
-     * @throws FileNotFoundException
-     * @throws NoPathException
      */
-    private function getProperty(string $name): ?string {
-        if (true === $this->cache->containsKey($name)) {
-            return $this->cache->get($name);
+    private function getProperty(string $name, $default = null): ?string {
+        try {
+            if (true === $this->cache->containsKey($name)) {
+                return $this->cache->get($name);
+            }
+            $property = $this->sysProperties->read($name);
+            $this->cache->put($name, $property);
+            return $property;
+        } catch (Exception $exception) {
+            return $default;
         }
-        $property = $this->sysProperties->read($name);
-        $this->cache->put($name, $property);
-        return $property;
+
+        return $default;
     }
 
     /**
