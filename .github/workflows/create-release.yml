@@ -38,7 +38,7 @@ jobs:
       - name: Clean Up
         run: |
           rm -rf node_modules
-          rm -rf .github .git config/phpstan config/vagrant test/ less/ js/
+          rm -rf .github .git config/phpstan config/vagrant test/ js/
           rm -f .babelrc .editorconfig .eslintrc.js .gitignore Vagrantfile composer.json composer.lock package-lock.json package.json webpack.config.js
           cd ../ && pwd
           zip -r release-${{ github.sha }}.zip didapptic
