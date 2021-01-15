@@ -3,7 +3,7 @@
 main.php
 node_modules
 src/dist/js/*
-src/dist/css/*
+src/dist/css/*.css
 .vagrant
 
 *.pdf
