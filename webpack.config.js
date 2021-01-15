@@ -28,18 +28,24 @@ module.exports = {
         }]
     },
     resolve: {
-        fallback: {
-            "crypto": require.resolve("crypto-browserify"),
-            "buffer": require.resolve("buffer/"),
-            "util": require.resolve("util/"),
-            "stream": require.resolve("stream-browserify"),
-            "process": require.resolve("process"),
-        }
+        // fallback: {
+        //     "crypto": require.resolve("crypto-browserify"),
+        //     "buffer": require.resolve("buffer/"),
+        //     "util": require.resolve("util/"),
+        //     "stream": require.resolve("stream-browserify"),
+        //     "process": require.resolve("process"),
+        // }
     },
     plugins: [
         new webpack.ProvidePlugin({
             $: "jquery",
             jQuery: "jquery"
+        }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('development')
+        }),
+        new webpack.DefinePlugin({
+            process: 'process'
         })
     ]
 };
