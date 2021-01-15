@@ -25,6 +25,7 @@
  */
 
 import {Hints} from "./Hints";
+import "process";
 
 $(document).ready(
     async () => {

@@ -25,6 +25,7 @@
  */
 
 import {Settings} from "./Settings";
+import "process";
 
 $(document).ready(
     async () => {

@@ -37,6 +37,7 @@ import {StringService} from "../Library/Service/DataType/StringService";
 import {ArrayService} from "../Library/Service/DataType/ArrayService";
 import {IntegerService} from "../Library/Service/DataType/IntegerService";
 import {DidappticModal} from "../Library/Modal/DidappticModal";
+import "process";
 
 $(document).ready(
     async () => {

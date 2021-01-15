@@ -37,6 +37,7 @@ import {EmailService} from "../Library/Service/EmailService";
 import {PasswordService} from "../Library/Service/PasswordService";
 import {Routes} from "./Routes/Routes";
 import {URLService} from "../Library/Service/URLService";
+import "process";
 
 $(document).ready(async () => {
     const fetcher = new Fetcher();

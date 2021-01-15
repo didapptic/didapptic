@@ -33,6 +33,7 @@ import {TemplateLoader} from "../Library/Storage/Template/TemplateLoader";
 import {Parser} from "../Library/Template/Parser";
 import {Environment} from "../Library/Environment";
 import {Routes} from "./Routes/Routes";
+import "process";
 
 $(document).ready(async () => {
     const environment = new Environment();

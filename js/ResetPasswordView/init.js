@@ -36,6 +36,7 @@ import {PasswordService} from "../Library/Service/PasswordService";
 import {IntegerService} from "../Library/Service/DataType/IntegerService";
 import {Router} from "../Library/Public/Router";
 import {Routes} from "./Routes/Routes";
+import "process";
 
 $(document).ready(async () => {
     const environment = new Environment();

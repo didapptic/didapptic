@@ -35,6 +35,7 @@ import {Parser} from "../Library/Template/Parser";
 import {Routes as GlobalRoutes} from "../Library/Backend/Routes/Routes";
 import {TemplateLoader} from "../Library/Storage/Template/TemplateLoader";
 import {Environment} from "../Library/Environment";
+import "process";
 
 $(document).ready(async () => {
     const fetcher = new Fetcher();

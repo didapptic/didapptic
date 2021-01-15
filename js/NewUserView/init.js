@@ -37,6 +37,7 @@ import {EmailService} from "../Library/Service/EmailService";
 import {URLService} from "../Library/Service/URLService";
 import {Router} from "../Library/Public/Router";
 import {Routes} from "./Routes/Routes";
+import "process";
 
 $(document).ready(async () => {
     const environment = new Environment();

@@ -39,6 +39,7 @@ import {AppForm, MODE_NEW} from "../Library/App/Form/AppForm";
 import {FloatService} from "../Library/Service/DataType/FloatService";
 import {StringService} from "../Library/Service/DataType/StringService";
 import {IntegerService} from "../Library/Service/DataType/IntegerService";
+import "process";
 
 $(document).ready(async () => {
     const environment = new Environment();

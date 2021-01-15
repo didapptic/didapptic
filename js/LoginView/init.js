@@ -33,6 +33,7 @@ import {StringLoader} from "../Library/Storage/String/StringLoader";
 import {Routes as GlobalRoutes} from "../Library/Backend/Routes/Routes";
 import {Parser} from "../Library/Template/Parser";
 import {Environment} from "../Library/Environment";
+import "process";
 
 $(document).ready(async () => {
     const baseURL = $("#data-node").attr("data-host");
