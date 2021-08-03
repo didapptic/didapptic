@@ -74,8 +74,6 @@ class Environment {
         } catch (Exception $exception) {
             return $default;
         }
-
-        return $default;
     }
 
     /**

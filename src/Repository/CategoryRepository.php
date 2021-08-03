@@ -29,6 +29,7 @@ declare(strict_types=1);
 namespace Didapptic\Repository;
 
 use doganoo\PHPUtil\Storage\PDOConnector;
+use Exception;
 use PDO;
 
 /**
@@ -56,12 +57,16 @@ class CategoryRepository {
      * @return array
      */
     public function getCategories(): array {
-        $array     = [];
-        $sql       = "SELECT `id`, `category` FROM `category` ORDER BY `category` ASC;";
-        $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
+        $array = [];
+        $sql   = "SELECT `id`, `category` FROM `category` ORDER BY `category` ASC;";
+
+        try {
+            $statement = $this->connector->prepare($sql);
+        } catch (Exception $exception) {
+            // TODO log!
             return $array;
         }
+
         $statement->execute();
         while ($row = $statement->fetch(PDO::FETCH_BOTH)) {
             $id   = $row[0];
@@ -80,8 +85,8 @@ class CategoryRepository {
      * @return array
      */
     public function getCategoriesByAppId(int $appId): array {
-        $array     = [];
-        $sql       = "  
+        $array = [];
+        $sql   = "  
                         SELECT 
                             c.`id`
                           , c.`category` 
@@ -90,8 +95,9 @@ class CategoryRepository {
                             LEFT JOIN `app` a on ac.`app_id` = a.`id`
                         WHERE a.`id` = :app_id
                         ORDER BY `category` ASC;";
-        $statement = $this->connector->prepare($sql);
-        if (null === $statement) {
+        try {
+            $statement = $this->connector->prepare($sql);
+        } catch (Exception $exception) {
             return $array;
         }
         $statement->bindParam("app_id", $appId);
@@ -113,13 +119,16 @@ class CategoryRepository {
      * @return bool
      */
     public function exists(string $categoryId): bool {
-        $sql       = "SELECT EXISTS(
+        $sql = "SELECT EXISTS(
                             SELECT `id` 
                             FROM `category`
                             WHERE `id`= :category_id
                         )";
-        $statement = $this->connector->prepare($sql);
-        if (null === $statement) return false;
+        try {
+            $statement = $this->connector->prepare($sql);
+        } catch (Exception $exception) {
+            return false;
+        }
         $statement->bindParam(":category_id", $categoryId);
         $statement->execute();
         $row    = $statement->fetch(PDO::FETCH_BOTH);
@@ -139,9 +148,9 @@ class CategoryRepository {
                             :category
                         );";
 
-        $statement = $this->connector->prepare($sql);
-
-        if (null === $statement) {
+        try {
+            $statement = $this->connector->prepare($sql);
+        } catch (Exception $exception) {
             return null;
         }
 
