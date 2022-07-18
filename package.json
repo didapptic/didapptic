@@ -44,7 +44,7 @@
     "jquery": "^3.6.0",
     "jquery-form": "4.2.2",
     "jquery-scroll": "^1.1.1",
-    "jquery-ui": "^1.13.0",
+    "jquery-ui": "^1.13.2",
     "jquery-ui-dist": "^1.12.1",
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
